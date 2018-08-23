@@ -5,7 +5,7 @@ export default class tileMapScene extends Phaser.Scene {
         super({
             key: 'tileMapScene'
         })
-
+        this.score = 0
     }
 
     preload() {
@@ -52,10 +52,17 @@ export default class tileMapScene extends Phaser.Scene {
         // var tileset2 = map2.addTilesetImage('SuperMarioBrosMap1-3_bank.png', 'tiles3');
         // var layer2 = map2.createStaticLayer('ShoeBox Tile Grab', tileset2, 700, 300);
 
-        this.layer1.setCollisionByExclusion([1, 2, 3, 12])
+        this.layer1.setCollisionByExclusion([1, 2, 3, 12, 11])
 
         // 12 = 蘑菇🍄
         this.layer1.setTileIndexCallback(12, (sprite, tile) => {
+            this.score += 10
+            this.layer1.removeTileAt(tile.x, tile.y);
+            return false
+        });
+        // 11 =  金币
+        this.layer1.setTileIndexCallback(11, (sprite, tile) => {
+            this.score += 10
             this.layer1.removeTileAt(tile.x, tile.y);
             return false
         });
@@ -97,7 +104,8 @@ export default class tileMapScene extends Phaser.Scene {
             speed: 0.5
         }
         this.controls = new Phaser.Cameras.Controls.FixedKeyControl(FixedKeyControlConfig);
-
+        this.cameras.main.setBackgroundColor(0x6888ff)
+        // new player
         this.player = new PlayerSprite({
             scene: this,
             x: 330,
@@ -108,6 +116,8 @@ export default class tileMapScene extends Phaser.Scene {
 
         this.cameras.main.startFollow(this.player);  // 镜头跟随
         // this.cameras.main.setBounds(0, 0, layer1.x + layer1.width + 600, 0);
+
+        this.scoreText = this.add.text(0, 0, "score : 0")
 
 
         // 事件的监听
@@ -123,6 +133,7 @@ export default class tileMapScene extends Phaser.Scene {
 
         this.player.update(time, delta)
 
+        this.updateText()
     }
 
     drawDebug() {
@@ -137,6 +148,9 @@ export default class tileMapScene extends Phaser.Scene {
         this.events.emit('drawDebugEvent');
     }
 
+    updateText() {
+        this.scoreText.setText("score :" + this.score)
+    }
 
 }
 
