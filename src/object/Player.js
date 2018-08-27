@@ -1,5 +1,7 @@
+import Fireball from "./fireball"
+
 export default class PlayerSprite extends Phaser.Physics.Arcade.Sprite {
-    constructor(config){
+    constructor(config) {
         super(config.scene, config.x, config.y);
         config.scene.physics.world.enable(this);
         this.scene = config.scene;
@@ -25,7 +27,7 @@ export default class PlayerSprite extends Phaser.Physics.Arcade.Sprite {
             frameRate: 15,
             repeat: -1
         })
- 
+
         // 添加控制按键
         this.keys = {
             left: this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A),
@@ -33,11 +35,36 @@ export default class PlayerSprite extends Phaser.Physics.Arcade.Sprite {
             right: this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E),
             up: this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.COMMA),   // ",键"
         }
-
+        //sync crosshair position with pointer
+        this.scene.input.on('pointermove', function (pointer) {
+            //this.scene.crosshair.x = pointer.x;
+            //this.scene.crosshair.y = pointer.y;
+            let mouse = pointer
+            this.scene.crosshair.setPosition(mouse.x + this.scene.cameras.main.scrollX, mouse.y + this.scene.cameras.main.scrollY);
+        }, this);
 
         this.anims.play('left')
+        // 攻击
+        this.scene.input.on('pointerdown', function (pointer) {
+            // let magic = this.scene.registry.get('magic_current');
+            if (1) {
+                let fireball = new Fireball({
+                    scene: this.scene,
+                    x: this.x,
+                    y: this.y,
+                });
+                this.scene.playerAttack.add(fireball);
+
+                // this.scene.registry.set('magic_current', magic - 1);
+                // this.scene.events.emit('magicChange'); //tell the scene the magic has changed so the HUD is updated
+            } else {
+                // this.noMagicSound.play();
+            }
+        }, this)
     }
-    update(time, delta){
+
+    update(time, delta) {
+        // 控制移动
         if (this.keys.left.isDown) {
             this.setVelocityX(-160)
             this.flipX = false
@@ -50,7 +77,7 @@ export default class PlayerSprite extends Phaser.Physics.Arcade.Sprite {
             this.anims.play('left', true)
         }
         // 触地才允许跳跃
-        else if (this.keys.up.isDown ) {
+        else if (this.keys.up.isDown) {
             this.setVelocityY(-300)
         }
         else {
