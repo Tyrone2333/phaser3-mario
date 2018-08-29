@@ -23,7 +23,7 @@ export default class Fireball extends Phaser.GameObjects.Sprite {
         this.emitter.setPosition(this.x, this.y);
     }
 
-    wallCollide() {
+    collidedExplode() {
         this.emitter.explode(64, this.x, this.y);
 
         this.destroy();

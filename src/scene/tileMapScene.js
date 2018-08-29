@@ -1,5 +1,9 @@
 import PlayerSprite from "../object/Player"
-import Enemy from "../object/enemy"
+import Enemy from "../object/Enemy"
+import Goomba from "../object/Goomba"
+import Koopa from "../object/Koopa"
+import Coin from "../object/Coin"
+import Test from "../object/test"
 
 export default class tileMapScene extends Phaser.Scene {
     constructor() {
@@ -41,6 +45,7 @@ export default class tileMapScene extends Phaser.Scene {
         })
         this.load.spritesheet('brickCoins', 'resource/img/Levels/brickCoins.png', {frameWidth: 16, frameHeight: 16})
         this.load.spritesheet('brickCoins2', 'resource/img/Levels/brickCoins_2.png', {frameWidth: 16, frameHeight: 16})
+        this.load.spritesheet('coinBlock', 'resource/img/Items/coinBlock.png', {frameWidth: 16, frameHeight: 16})
         this.load.image('tileset_levels', 'resource/tilemap/tileset_levels.png')
 
         //  自己制作的tilemap
@@ -52,7 +57,19 @@ export default class tileMapScene extends Phaser.Scene {
         this.load.image("super_mario_tileset", "resource/image/super-mario.png")
         this.load.spritesheet('small_mario', 'resource/tilemap/small_mario.png', {frameWidth: 16, frameHeight: 16})
         this.load.spritesheet('big_mario', 'resource/tilemap/big_mario.png', {frameWidth: 16, frameHeight: 32})
+        this.load.spritesheet('goomba_red', 'resource/img/Enemies/Goomba/goomba_red.png', {
+            frameWidth: 16,
+            frameHeight: 16
+        })
 
+        this.load.spritesheet('koopa_green', 'resource/img/Enemies/Koopa/koopa_green.png', {
+            frameWidth: 16,
+            frameHeight: 24
+        })
+        this.load.spritesheet('koopa_green_squish', 'resource/img/Enemies/Koopa/koopa_green_squish.png', {
+            frameWidth: 16,
+            frameHeight: 16
+        })
 
         // tilemap example 的 atlas 文件
         this.load.pack('Preload', 'resource/pack.json', 'Preload')
@@ -72,15 +89,6 @@ export default class tileMapScene extends Phaser.Scene {
         this.pipesAccessLayer = this.map.createDynamicLayer('PipesAccess', tileset_level1, 0, 0)
         this.exitPipesLayer = this.map.createDynamicLayer('ExitPipes', tileset_level1, 0, 0)
         this.finishLevelLayer = this.map.createDynamicLayer('FinishLevel', tileset_level1, 0, 0)
-
-        // let bricksObjects = this.map.createFromObjects('Bricks', "bricks", { x: 0, y: 0,key: 'bricks', scaleX: 1})
-
-        this.createGroupFromObjects()
-
-
-        // let tileset_brickCoin =  this.map.addTilesetImage('brickCoin')
-        // this.BricksCoinLayer =this.map.createDynamicLayer('brickCoin',tileset_brickCoin,0,0)
-        // this.brickCoinsGroup = this.physics.add.group()
 
 
         // // 旧 Mario 地图
@@ -127,36 +135,15 @@ export default class tileMapScene extends Phaser.Scene {
             this.drawDebug()
         })
 
-
-        // // 自己测试的地图
-        // let map = this.add.tilemap('test_tilemap2')
-        // // let map = this.make.tilemap({key: 'map', tileWidth: 16, tileHeight: 16})
-        // var super_mario_tileset = map.addTilesetImage('super_mario_tileset')
-        // this.groundLayer = map.createDynamicLayer("groundLayer", super_mario_tileset)
-        // this.starLayer = map.createDynamicLayer("starLayer", super_mario_tileset)
-        // this.randomBoxLayer = map.createDynamicLayer("randomBoxLayer", super_mario_tileset)
-        //
-        // this.groundLayer.setCollision([15,40])
-        // this.randomBoxLayer.setCollision([14,249])
-        // // this.randomBoxLayer.setCollisionByProperty({collides: true})
-        //
-        // // 限定了 createFromObjects 的id 改id正则: \"id\":\d{1,10} 生成的 sprite 会自己改scale,不知道为什么
-        // var enemyObjects = map.createFromObjects('enemyObject', 6, {key: 'koopa',x:0,y:0,scaleX:1})
-        //
-        // // enemyObjects[0].setScale(1)
-        // this.anims.play('marioRight_anim', enemyObjects)
-        // this.physics.add.collider(this.player, this.groundLayer)    // 自己建的地图ground
-        // // 自己测试的地图 END
-
         // new player
         this.player = new PlayerSprite({
             scene: this,
-            x: 320,
+            x: 300,
             y: 128,
         })
         this.player.setCollideWorldBounds(true) // 世界碰撞
 
-
+        this.cameras.main.setScroll(100, 0)
         // 镜头跟随,开启后镜头控制会被覆盖
         // this.cameras.main.startFollow(this.player)
         //  camera 镜头控制
@@ -183,7 +170,6 @@ export default class tileMapScene extends Phaser.Scene {
         }
         this.controls = new Phaser.Cameras.Controls.FixedKeyControl(FixedKeyControlConfig)
         this.cameras.main.setBackgroundColor(0x6888ff)
-        // this.cameras.main.setBounds(0, 0, this.layer1.x + this.layer1.width + 600, 0)
 
         /**
          * 滚动因子控制相机移动对此游戏对象的影响。
@@ -203,21 +189,18 @@ export default class tileMapScene extends Phaser.Scene {
 
 
         //create attack group to hold player's fireballs
-        this.playerAttack = this.add.group(null)
-        this.playerAttack.runChildUpdate = true
-        this.enemies = this.add.group(null)
-        this.enemies.runChildUpdate = true
+        this.playerAttackGroup = this.add.group(null)
+        this.playerAttackGroup.runChildUpdate = true
+        this.enemiesGroup = this.add.group(null)
+        this.enemiesGroup.runChildUpdate = true
+        this.coinsGroup = this.add.group(null)
+        this.coinsGroup.runChildUpdate = true
+
 
         //create crosshair(十字准线) which is controlled by player class
         this.crosshair = this.add.image(0, 0, 'atlas', 'crosshair')
-        let enemy = new Enemy({
-            scene: this,
-            x: 100,
-            y: 128,
-            number: 5
-        })
-        this.enemies.add(enemy)
 
+        this.createGroupFromObjects()
         // 创建碰撞
         this.createCollision()
     }
@@ -229,6 +212,7 @@ export default class tileMapScene extends Phaser.Scene {
         this.player.update(time, delta)
 
         this.updateText()
+
 
     }
 
@@ -261,7 +245,7 @@ export default class tileMapScene extends Phaser.Scene {
         this.anims.create({
             key: "randomBox_anim",
             frames: this.anims.generateFrameNumbers("randomBox", {start: 0, end: 2}),
-            frameRate: 6,
+            frameRate: 1,
             repeat: -1
         })
         this.anims.create({
@@ -277,27 +261,139 @@ export default class tileMapScene extends Phaser.Scene {
             repeat: 1
         })
 
+        this.anims.create({
+            key: "goombaWalk_anim",
+            frames: this.anims.generateFrameNumbers("goomba_red", {start: 0, end: 1}),
+            frameRate: 4,
+            repeat: -1
+        })
+        this.anims.create({
+            key: "goombaDie_anim",
+            frames: this.anims.generateFrameNumbers("goomba_red", {start: 2, end: 2}),
+            frameRate: 1,
+            repeat: 1
+        })
+        this.anims.create({
+            key: "koopaWalk_anim",
+            frames: this.anims.generateFrameNumbers("koopa_green", {start: 0, end: 1}),
+            frameRate: 4,
+            repeat: -1
+        })
+
+        this.anims.create({
+            key: "coinBlock_anim",
+            frames: this.anims.generateFrameNumbers("coinBlock", {start: 0, end: 3}),
+            frameRate: 4,
+            repeat: -1
+        })
+
 
     }
 
     createGroupFromObjects() {
+        // 砖块
         let bricksObjects = this.map.createFromObjects('Bricks', "bricks", {key: 'bricks'})
-        this.bricksObjectsGroup = this.physics.add.staticGroup()
+        this.bricksGroup = this.physics.add.staticGroup()
         bricksObjects.forEach((val, idx) => {
             // val.body.collideWorldBounds﻿=true
             val.setOrigin(0)
             // val.setScale(1)
             val.width = val.width * val._scaleX
             val.height = val.height * val._scaleY
-
             // 图块的原点在左下角,渲染在图上是从中心为起点,不调整会导致obj错位
             val.x = val.x - (val.width / 2)
             val.y = val.y + (val.height / 2)
             val.setScale(1)
             val.isCollided = false
             this.anims.play('brick_anim', val)
-            this.bricksObjectsGroup.add(val)
+            this.bricksGroup.add(val)
         })
+
+        // 生成敌人 Goombas
+        this.map.getObjectLayer('Goombas').objects.forEach((obj) => {
+            let goomba = new Goomba(
+                this,
+                obj.x + 8,
+                obj.y + 16,
+                "brick"
+            )
+            this.enemiesGroup.add(goomba)
+        })
+
+        // 生成敌人 Koopa
+        this.map.getObjectLayer('Koopas').objects.forEach((obj) => {
+            let koopa = new Koopa(
+                this,
+                obj.x + 8,
+                obj.y + 8,
+                "koopa_green"
+            )
+            koopa.body.height = obj.height
+            this.enemiesGroup.add(koopa)
+
+            // let koopasObjects = this.map.createFromObjects('Koopas', "koopas", {key: 'koopas'})
+            // koopasObjects.forEach((val, idx) => {
+            //     val.setOrigin(0)
+            //     // val.setScale(1)
+            //     val.width = val.width * val._scaleX
+            //     val.height = val.height * val._scaleY
+            //     // 图块的原点在左下角,渲染在图上是从中心为起点,不调整会导致obj错位
+            //     val.x = val.x - (val.width / 2)
+            //     val.y = val.y + (val.height / 2)
+            //     val.setScale(1)
+            //     val.isCollided = false
+            //     log(val)
+            //     this.anims.play('koopaWalk_anim', val)
+            //     this.enemiesGroup.add(val)
+            // })
+
+        })
+
+        //  死亡空间
+        let deadZoneObjects = this.map.createFromObjects('DeadZones', "deadZones", {key: 'deadZones'})
+        this.deadZoneGroup = this.physics.add.staticGroup()
+        deadZoneObjects.forEach((val, idx) => {
+            // val.body.collideWorldBounds﻿=true
+            val.setOrigin(0)
+            // val.setScale(1)
+            val.width = val.width * val._scaleX
+            val.height = val.height * val._scaleY
+            // 图块的原点在左下角,渲染在图上是从中心为起点,不调整会导致obj错位
+            val.x = val.x - (val.width / 2)
+            val.y = val.y + (val.height / 2)
+            val.setScale(1)
+            val.isCollided = false
+            this.deadZoneGroup.add(val)
+        })
+
+        // 砖里有金币为 bricksCoin 有多个金币为 BricksCoins
+        this.bricksCoinGroup = this.physics.add.staticGroup()
+        let bricksCoinObjects = this.map.createFromObjects('BricksCoin', "bricksCoin", {key: 'bricksCoin'})
+        bricksCoinObjects.forEach((val, idx) => {
+            // val.body.collideWorldBounds﻿=true
+            val.setOrigin(0)
+            // val.setScale(1)
+            val.width = val.width * val._scaleX
+            val.height = val.height * val._scaleY
+            // 图块的原点在左下角,渲染在图上是从中心为起点,不调整会导致obj错位
+            val.x = val.x - (val.width / 2)
+            val.y = val.y + (val.height / 2)
+            val.setScale(1)
+            val.isCollided = false
+
+            this.anims.play('randomBox_anim', val)
+            this.bricksCoinGroup.add(val)
+        })
+        // 地上的金币
+        this.map.getObjectLayer('Coins').objects.forEach((obj) => {
+            let coin = new Coin({
+                scene: this,
+                x: obj.x + 8,
+                y: obj.y + 8,
+            })
+            this.coinsGroup.add(coin)
+        })
+
 
     }
 
@@ -305,32 +401,67 @@ export default class tileMapScene extends Phaser.Scene {
         this.graphicLayer.setCollision([1, 34, 67, 69, 265, 266, 267, 268, 269, 298, 299, 300, 301, 301, 302])
 
         this.physics.add.collider(this.player, this.graphicLayer)
-        this.physics.add.collider(this.player, this.bricksObjectsGroup, (player, brick) => {
+        //  捡金币
+        this.physics.add.collider(this.player, this.coinsGroup, (player, coin) => {
+            coin.collidingWithPlayer()
+        })
+        // player 顶有硬币的砖块
+        this.physics.add.collider(this.player, this.bricksCoinGroup, (player, brick) => {
             if (brick.isCollided === true) {
                 return
             }
-            brick.isCollided = true
-            this.tweens.add({
-                targets: brick,
-                // x: brick.x,
-                y: brick.y - 8,
-                callbackScope: this,
-                duration: 100,  // 持续时间
-                ease: 'Quintic',    // Phaser.Math. Easing
-                yoyo: true,
-                onComplete: function (tween) {
-                    brick.anims.play("blockCollisioned_anim")
-                },
-            })
-
+            // player 顶 砖块
+            if (player.body.touching.up && brick.body.touching.down) {
+                // 藏有金币或者蘑菇的才设置
+                brick.isCollided = true
+                this.tweens.add({
+                    targets: brick,
+                    // x: brick.x,
+                    y: brick.y - 8,
+                    callbackScope: this,
+                    duration: 100,  // 持续时间
+                    ease: 'Quintic',    // Phaser.Math. Easing
+                    yoyo: true,
+                    onComplete: function (tween) {
+                        brick.anims.play("blockCollisioned_anim")
+                    },
+                })
+                let coin = new Coin({
+                    scene: this,
+                    x: brick.x + 8,
+                    y: brick.y + 8 - 16,
+                })
+                coin.collidingBricksCoin()
+            }
         })
-        // fireball hitting wall
-        this.physics.add.collider(this.playerAttack, this.graphicLayer, (fireball, tile) => {
-            fireball.wallCollide()
+        // player 顶普通砖块
+        this.physics.add.collider(this.player, this.bricksGroup, (player, brick) => {
+            if (player.body.touching.up && brick.body.touching.down) {
+                brick.destroy()
+            }
+        })
+        // fireball 打墙
+        this.physics.add.collider(this.playerAttackGroup, this.graphicLayer, (fireball, tile) => {
+            fireball.collidedExplode()
             this.graphicLayer.removeTileAt(tile.x, tile.y)
         })
-        this.physics.add.collider(this.enemies, this.graphicLayer, (enemy, wall) => {
+        this.physics.add.collider(this.playerAttackGroup, this.enemiesGroup, (fireball, enemy) => {
+            fireball.collidedExplode()
+            enemy.collidingWithFireball()
+        })
 
+        //  TODO:   重复 overlap 会导致 dieSetting 重复生成用于移除的倒计时
+        this.physics.add.overlap(this.player, this.enemiesGroup, (player, enemy) => {
+            enemy.collidingWithPlayer()
+        })
+
+        // player 掉坑里
+        this.physics.add.overlap(this.player, this.deadZoneGroup, (player, deadZone) => {
+
+        })
+        // enemy 掉坑里
+        this.physics.add.overlap(this.enemiesGroup, this.deadZoneGroup, (enemy, deadZone) => {
+            enemy.dieSetting()
         })
 
     }

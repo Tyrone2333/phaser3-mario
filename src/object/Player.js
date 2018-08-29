@@ -1,11 +1,11 @@
-import Fireball from "./fireball"
+import Fireball from "./Fireball"
 
 export default class PlayerSprite extends Phaser.Physics.Arcade.Sprite {
     constructor(config) {
         super(config.scene, config.x, config.y);
         config.scene.physics.world.enable(this);
         this.scene = config.scene;
-        this.scene.add.existing(this);
+        this.scene.add.existing(this);// 没这个就无法显示在scene
         this.scene.physics.world.enable(this);
 
         // player 动画
@@ -53,7 +53,7 @@ export default class PlayerSprite extends Phaser.Physics.Arcade.Sprite {
                     x: this.x,
                     y: this.y,
                 });
-                this.scene.playerAttack.add(fireball);
+                this.scene.playerAttackGroup.add(fireball);
 
                 // this.scene.registry.set('magic_current', magic - 1);
                 // this.scene.events.emit('magicChange'); //tell the scene the magic has changed so the HUD is updated
