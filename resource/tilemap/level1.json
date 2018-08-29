@@ -1559,7 +1559,7 @@
                  "type":"",
                  "visible":true,
                  "width":16,
-                 "x":672,
+                 "x":688,
                  "y":176
                 }, 
                 {
@@ -1704,6 +1704,17 @@
                  "width":15.3333,
                  "x":2800,
                  "y":176.333
+                }, 
+                {
+                 "height":16,
+                 "id":241,
+                 "name":"goombas",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":576,
+                 "y":176
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -1734,8 +1745,8 @@
                  "type":"",
                  "visible":true,
                  "width":16,
-                 "x":622.5,
-                 "y":120
+                 "x":591.5,
+                 "y":168
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -1743,7 +1754,7 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":241,
+ "nextobjectid":242,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.1.6",

@@ -138,12 +138,12 @@ export default class tileMapScene extends Phaser.Scene {
         // new player
         this.player = new PlayerSprite({
             scene: this,
-            x: 300,
+            x: 600,
             y: 128,
         })
         this.player.setCollideWorldBounds(true) // 世界碰撞
 
-        this.cameras.main.setScroll(100, 0)
+        this.cameras.main.setScroll(300, 0)
         // 镜头跟随,开启后镜头控制会被覆盖
         // this.cameras.main.startFollow(this.player)
         //  camera 镜头控制
@@ -180,6 +180,10 @@ export default class tileMapScene extends Phaser.Scene {
          但实际测试为0会随着镜头移动而移动,不论设置为0还是1 or 其他 文本的x,y都不改变
          */
         this.scoreText = this.add.text(0, 0, "score : 0").setScrollFactor(0)
+        this.debugText = {
+            pointPosition: this.add.text(0, 50, "指针:").setScrollFactor(0)
+        }
+
 
         // 事件的监听
         this.events.on('drawDebugEvent', function () {
@@ -199,7 +203,12 @@ export default class tileMapScene extends Phaser.Scene {
 
         //create crosshair(十字准线) which is controlled by player class
         this.crosshair = this.add.image(0, 0, 'atlas', 'crosshair')
+        //刷新 crosshair 的位置
+        this.input.on('pointermove', function (mouse) {
+            this.crosshair.setPosition(mouse.x + this.cameras.main.scrollX, mouse.y + this.cameras.main.scrollY);
+            this.debugText.pointPosition.setText("指针:" + mouse.x + "," + mouse.y)
 
+        }, this);
         this.createGroupFromObjects()
         // 创建碰撞
         this.createCollision()
@@ -260,7 +269,7 @@ export default class tileMapScene extends Phaser.Scene {
             frameRate: 1,
             repeat: 1
         })
-
+        // 蘑菇头
         this.anims.create({
             key: "goombaWalk_anim",
             frames: this.anims.generateFrameNumbers("goomba_red", {start: 0, end: 1}),
@@ -273,13 +282,29 @@ export default class tileMapScene extends Phaser.Scene {
             frameRate: 1,
             repeat: 1
         })
+        // 小王八
         this.anims.create({
             key: "koopaWalk_anim",
             frames: this.anims.generateFrameNumbers("koopa_green", {start: 0, end: 1}),
             frameRate: 4,
             repeat: -1
         })
+        //  王八缩壳
+        this.anims.create({
+            key: "koopaSquish_anim",
+            frames: this.anims.generateFrameNumbers("koopa_green_squish", {start: 0, end: 0}),
+            frameRate: 1,
+            repeat: 1
+        })
+        //  王八缩壳恢复
+        this.anims.create({
+            key: "koopaSquishRecover_anim",
+            frames: this.anims.generateFrameNumbers("koopa_green_squish", {start: 0, end: 1}),
+            frameRate: 6,
+            repeat: 6
+        })
 
+        // 硬币旋转
         this.anims.create({
             key: "coinBlock_anim",
             frames: this.anims.generateFrameNumbers("coinBlock", {start: 0, end: 3}),
@@ -330,22 +355,6 @@ export default class tileMapScene extends Phaser.Scene {
             )
             koopa.body.height = obj.height
             this.enemiesGroup.add(koopa)
-
-            // let koopasObjects = this.map.createFromObjects('Koopas', "koopas", {key: 'koopas'})
-            // koopasObjects.forEach((val, idx) => {
-            //     val.setOrigin(0)
-            //     // val.setScale(1)
-            //     val.width = val.width * val._scaleX
-            //     val.height = val.height * val._scaleY
-            //     // 图块的原点在左下角,渲染在图上是从中心为起点,不调整会导致obj错位
-            //     val.x = val.x - (val.width / 2)
-            //     val.y = val.y + (val.height / 2)
-            //     val.setScale(1)
-            //     val.isCollided = false
-            //     log(val)
-            //     this.anims.play('koopaWalk_anim', val)
-            //     this.enemiesGroup.add(val)
-            // })
 
         })
 

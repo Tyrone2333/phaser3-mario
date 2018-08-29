@@ -35,13 +35,7 @@ export default class PlayerSprite extends Phaser.Physics.Arcade.Sprite {
             right: this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E),
             up: this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.COMMA),   // ",键"
         }
-        //sync crosshair position with pointer
-        this.scene.input.on('pointermove', function (pointer) {
-            //this.scene.crosshair.x = pointer.x;
-            //this.scene.crosshair.y = pointer.y;
-            let mouse = pointer
-            this.scene.crosshair.setPosition(mouse.x + this.scene.cameras.main.scrollX, mouse.y + this.scene.cameras.main.scrollY);
-        }, this);
+
 
         this.anims.play('left')
         // 攻击
@@ -64,6 +58,8 @@ export default class PlayerSprite extends Phaser.Physics.Arcade.Sprite {
     }
 
     update(time, delta) {
+        // log(this.x + ","+this.y)
+
         // 控制移动
         if (this.keys.left.isDown) {
             this.setVelocityX(-160)
@@ -85,7 +81,9 @@ export default class PlayerSprite extends Phaser.Physics.Arcade.Sprite {
             this.flipX = false
             this.anims.play('turn')
         }
+    }
 
-
+    jump() {
+        this.setVelocityY(-300)
     }
 }

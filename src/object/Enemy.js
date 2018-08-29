@@ -2,13 +2,13 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 
     // constructor(config) {
     //     super(config.scene, config.x, config.y,"brick");
-    constructor(scene,x,y,texture) {
+    constructor(scene, x, y, texture) {
         super(scene, x, y, texture);
         scene.physics.world.enable(this);
         this.scene = scene;
         this.scene.add.existing(this);  // 没这个就无法显示在scene
         this.scene.physics.world.enable(this);
-
+        this.setCollideWorldBounds(true) // 世界碰撞
         this.direction = -1 // 向左运动
         this.speed = 30
         this.life = 1
@@ -36,4 +36,37 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         }
     }
 
+    dieSetting() {
+        this.alive = false
+        this.direction = 0
+        this.body.velocity.x = 0
+        setTimeout(() => {
+            this.scene.enemiesGroup.remove(this, true, true)   //从组 + 场景移除,并销毁
+        }, 2000)
+    }
+
+    collidingWithFireball() {
+
+        if(this.alive){
+            this.scene.score += 10
+            this.angle = -180;
+            // 创建时间线动画
+            let timeline = this.scene.tweens.createTimeline();
+            timeline.add({
+                targets: this,
+                y: this.y - 16,
+                ease: 'Power1',
+                duration: 600
+            });
+            timeline.add({
+                targets: this,
+                y:  this.y + 600,
+                ease: 'Power1',
+                duration: 3000
+            });
+            timeline.play();
+        }
+
+        this.dieSetting()
+    }
 }
