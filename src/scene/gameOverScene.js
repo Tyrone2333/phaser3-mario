@@ -19,10 +19,10 @@ export default class GameOver extends Phaser.Scene {
         }
         let textResult
         this.cameras.main.setBackgroundColor(0x2a0503)
-        if (this.condition === 'win') {
+        if (this.condition.result === 'win') {
             textResult = "Victory"
             this.overText = this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2 - 64, 'atlas', 'win')
-        } else if (this.condition === 'lose') {
+        } else if (this.condition.result === 'lose') {
             textResult = "Defeat"
             this.overText = this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2 - 64, 'atlas', 'gameOver')
         }

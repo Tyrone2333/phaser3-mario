@@ -3,18 +3,25 @@ import Coin from "./Coin";
 
 export default class PlayerSprite extends Phaser.Physics.Arcade.Sprite {
     constructor(config) {
-        super(config.scene, config.x, config.y, "brick")
+        super(config.scene, config.x, config.y, "small_mario")
         config.scene.physics.world.enable(this)
         this.scene = config.scene
         this.scene.add.existing(this)// 没这个就无法显示在scene
         this.scene.physics.world.enable(this)
 
-        this.bigMode = false
+        this.bigMode = false    // 改变大小需使用 changeSizeMode(mode)
+        this.fireMode = false   // 火 mario
         this.direction = 1 // 向右
         this.speed = 150
         this.jumpSpeed = 210
-        this.life = 1
+        this.life = 3
         this.alive = true
+        this.isJumping = false
+        this.ability = {
+            fireball: false,   // 丢火球
+            invincible: false, // 无敌(吃星星)
+        }
+        this.currentModeIndex = 3
 
         // 创建人物动画
         this.creatAnims()
@@ -25,41 +32,133 @@ export default class PlayerSprite extends Phaser.Physics.Arcade.Sprite {
     }
 
     update(time, delta) {
-        // 控制移动
-        if (this.keys.left.isDown) {
-            this.direction = -1
-            this.body.velocity.x = this.direction * this.speed
-            this.bigMode ? this.anims.play('bigLeft_anim', true) : this.anims.play('left_anim', true)
 
-        }
-        else if (this.keys.right.isDown) {
-            this.direction = 1
-            this.body.velocity.x = this.direction * this.speed
-            this.bigMode ? this.anims.play('bigRight_anim', true) : this.anims.play('right_anim', true)
-        }
-        // 触地才允许跳跃
-        else if (this.keys.up.isDown && this.body.blocked.down) {
-        // else if (this.keys.up.isDown) {
-            this.jump()
-            this.anims.play('jump_anim', true)
-        }
-        else {
-            this.body.velocity.x = 0
-            this.anims.play('faceRight_anim', true)
-            if(this.direction === 1){
-                this.anims.play('faceRight_anim', true)
-            }else {
-                this.anims.play('faceLeft_anim', true)
+        if (this.alive) {
+            // 控制移动
+            this.isJumping = this.body.blocked.none && this.body.velocity !== 0
+            if (this.keys.left.isDown) {
+                this.direction = -1
+                this.body.velocity.x = this.direction * this.speed
+                if (this.isJumping) return   // 为了阻挡左右的动画覆盖跳跃动画
+                this.bigMode ? this.anims.play('bigLeft_anim', true) : this.anims.play('left_anim', true)
             }
-            //  ? :
+            else if (this.keys.right.isDown) {
+                this.direction = 1
+                this.body.velocity.x = this.direction * this.speed
+                if (this.isJumping) return // 为了阻挡左右的动画覆盖跳跃动画
+                this.bigMode ? this.anims.play('bigRight_anim', true) : this.anims.play('right_anim', true)
+            }
+            // 触地才允许跳跃
+            else if (this.keys.up.isDown && this.body.blocked.down) {
+                // else if (this.keys.up.isDown) {
+                this.jump()
+            }
+            else if (this.isJumping) {
+                if (this.direction === 1) {
+                    this.bigMode ? this.anims.play('bigJumpRight_anim', true) : this.anims.play('jumpRight_anim', true)
+                } else {
+                    this.bigMode ? this.anims.play('bigJumpLeft_anim', true) : this.anims.play('jumpLeft_anim', true)
+                }
+            }
+            else {
+                this.body.velocity.x = 0
+                if (this.direction === 1) {
+                    this.bigMode ? this.anims.play('bigFaceRight_anim', true) : this.anims.play('faceRight_anim', true)
+
+                } else {
+                    this.bigMode ? this.anims.play('bigFaceLeft_anim', true) : this.anims.play('faceLeft_anim', true)
+
+                }
+            }
+        } else {
+            //  TODO 判定一直存在,会重复执行
+            // 死亡动画
+            let timeline = this.scene.tweens.createTimeline()
+            timeline.add({
+                targets: this,
+                y: this.y - 16,
+                ease: 'Power1',
+                duration: 600
+            })
+            timeline.add({
+                targets: this,
+                y: this.y + 600,
+                ease: 'Power1',
+                duration: 3000
+            })
+            timeline.play()
+            // 死亡动画   END
+
+            if (this.life > 0) {
+                // TODO 复活,重开游戏
+                // this.scene.start('gameScene', {
+                //     life: this.life,
+                //     difficult: "easy",
+                // })
+                log("die")
+            } else {
+                //  生命用完,结束
+
+                this.scene.start('gameOverScene', {
+                    result: "lose",
+                    score: this.scene.score,
+                })
+            }
         }
 
 
     }
 
     jump() {
+        this.body.velocity.y = this.jumpSpeed * -1
+    }
 
-        this.body.velocity.y =  this.jumpSpeed * -1
+
+    changeMode(condition) {
+        // upgrade  downgrade
+        const DIE_MODE = () => {
+            this.life --
+            this.alive = false
+            this.direction = 0
+            this.body.velocity.x = 0
+        }
+        const SMALL_MODE = () => {
+            this.bigMode = false
+            this.ability.fireball = false
+            this.ability.invincible = false
+            // this.setTexture("big_mario",this.anims.currentFrame.index)
+            this.setTexture("small_mario", this.frame.name)    // 替换内容和当前 frame 动作相同
+            this.setSize(16, 16)
+            this.originY = 0.5 // 此游戏对象的垂直原点
+        }
+        const BIG_MODE = () => {
+            this.bigMode = true
+            this.ability.fireball = false
+            this.ability.invincible = false
+            // this.setTexture("big_mario",this.anims.currentFrame.index)
+            this.setTexture("big_mario", this.frame.name)    // 替换内容和当前 frame 动作相同
+            this.setSize(16, 32)
+            this.y -= 8
+            this.originY = 0.25 // 此游戏对象的垂直原点
+        }
+        const FIRE_MODE = () => {
+            this.bigMode = true
+            this.ability.fireball = true
+        }
+        //  模式只能按序升降级
+        const MODE_ARR = [DIE_MODE,SMALL_MODE, BIG_MODE, FIRE_MODE]
+
+
+        if (condition === "upgrade") {
+            this.currentModeIndex = this.currentModeIndex < MODE_ARR.length - 1 ? ++this.currentModeIndex : this.currentModeIndex
+            log(this.currentModeIndex)
+        } else if (condition === "downgrade") {
+            this.currentModeIndex = this.currentModeIndex > 0 ? --this.currentModeIndex : 0
+            log(this.currentModeIndex)
+        }
+
+        //  执行当前模式
+        MODE_ARR[this.currentModeIndex]()
     }
 
     creatAnims() {
@@ -89,8 +188,14 @@ export default class PlayerSprite extends Phaser.Physics.Arcade.Sprite {
             repeat: 1
         })
         this.scene.anims.create({
-            key: "jump_anim",
+            key: "jumpRight_anim",
             frames: this.scene.anims.generateFrameNumbers("small_mario", {start: 5, end: 5}),
+            frameRate: 1,
+            repeat: 1
+        })
+        this.scene.anims.create({
+            key: "jumpLeft_anim",
+            frames: this.scene.anims.generateFrameNumbers("small_mario", {start: 7, end: 7}),
             frameRate: 1,
             repeat: 1
         })
@@ -107,6 +212,31 @@ export default class PlayerSprite extends Phaser.Physics.Arcade.Sprite {
             frameRate: 8,
             repeat: -1
         })
+        this.scene.anims.create({
+            key: "bigFaceRight_anim",
+            frames: this.scene.anims.generateFrameNumbers("big_mario", {start: 1, end: 1}),
+            frameRate: 1,
+            repeat: 1
+        })
+        this.scene.anims.create({
+            key: "bigFaceLeft_anim",
+            frames: this.scene.anims.generateFrameNumbers("big_mario", {start: 11, end: 11}),
+            frameRate: 1,
+            repeat: 1
+        })
+        this.scene.anims.create({
+            key: "bigJumpRight_anim",
+            frames: this.scene.anims.generateFrameNumbers("big_mario", {start: 5, end: 5}),
+            frameRate: 1,
+            repeat: 1
+        })
+        this.scene.anims.create({
+            key: "bigJumpLeft_anim",
+            frames: this.scene.anims.generateFrameNumbers("big_mario", {start: 7, end: 7}),
+            frameRate: 1,
+            repeat: 1
+        })
+
 
     }
 
@@ -138,7 +268,7 @@ export default class PlayerSprite extends Phaser.Physics.Arcade.Sprite {
     }
 
     // player 顶有硬币的砖块
-    collidingWithbricksCoinGroup(player, brick){
+    collidingWithbricksCoinGroup(player, brick) {
         if (brick.isCollided === true) {
             return
         }
@@ -166,12 +296,13 @@ export default class PlayerSprite extends Phaser.Physics.Arcade.Sprite {
             coin.collidingBricksCoin()
         }
     }
+
     // player 顶普通砖块
-    collidingWithbricksGroup(player, brick){
+    collidingWithbricksGroup(player, brick) {
         if (player.body.touching.up && brick.body.touching.down) {
-            if(this.bigMode){
+            if (this.bigMode) {
                 brick.destroy()
-            }else {
+            } else {
                 this.scene.tweens.add({
                     targets: brick,
                     y: brick.y - 8,
@@ -186,4 +317,6 @@ export default class PlayerSprite extends Phaser.Physics.Arcade.Sprite {
 
         }
     }
+
+
 }

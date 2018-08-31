@@ -12,7 +12,6 @@ export default class tileMapScene extends Phaser.Scene {
         })
         this.score = 0
         this.cameraMode = "keyControl" || "follow" || null // 控制相机是跟随玩家还是用按键控制
-
     }
 
     preload() {
@@ -112,8 +111,10 @@ export default class tileMapScene extends Phaser.Scene {
         this.input.keyboard.on('keydown_U', (event) => {
             this.showDebug = !this.showDebug
             this.drawDebug()
-        })
 
+
+            this.player.changeMode("downgrade")
+        })
         /**
          *  终点前高地   x: 3050,y: 40,
          *  第一管道   x: 465,y: 140,
@@ -128,6 +129,7 @@ export default class tileMapScene extends Phaser.Scene {
         })
         this.player.setCollideWorldBounds(true) // 世界碰撞
 
+        log(this.player.texture)
 
         // camera 相关
         if (this.cameraMode === "follow") {
@@ -450,7 +452,7 @@ export default class tileMapScene extends Phaser.Scene {
         // fireball 打墙
         this.physics.add.collider(this.playerAttackGroup, this.graphicLayer, (fireball, tile) => {
             fireball.collidedExplode()
-            this.graphicLayer.removeTileAt(tile.x, tile.y)
+            // this.graphicLayer.removeTileAt(tile.x, tile.y)  // 破坏地形
         })
         this.physics.add.collider(this.playerAttackGroup, this.enemiesGroup, (fireball, enemy) => {
             fireball.collidedExplode()
