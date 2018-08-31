@@ -2,9 +2,9 @@
 import Phaser from "phaser"
 import GameScene from './scene/GameScene'
 import LoadingScene from "./scene/loadingScene"
-import throwKnifeScene from "./scene/throwKnifeScene"
-import fuckPlaneScene from "./scene/fuckPlaneScene"
+
 import tileMapScene from "./scene/tileMapScene"
+import gameOverScene from "./scene/gameOverScene"
 
 const config = {
     // For more settings see <https://github.com/photonstorm/phaser/blob/master/src/boot/Config.js>
@@ -33,10 +33,9 @@ const config = {
     scene: [
         // LoadingScene,
         // GameScene,
-        // fuckPlaneScene,
-        // throwKnifeScene,
-        tileMapScene,
 
+        tileMapScene,
+        gameOverScene
     ]
 };
 

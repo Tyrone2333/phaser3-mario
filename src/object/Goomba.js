@@ -13,7 +13,7 @@ export default class Goomba extends Enemy {
 
     collidingWithPlayer() {
         // player 踩到 this
-        if(this.body.touching.up && this.scene.player.body.touching.down){f
+        if(this.body.touching.up && this.scene.player.body.touching.down){
             this.dieSetting()
             this.scene.score += 20
             this.anims.play("goombaDie_anim")

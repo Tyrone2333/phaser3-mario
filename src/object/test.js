@@ -12,6 +12,6 @@ export default class Test extends Phaser.Physics.Arcade.Sprite {
     }
 
     update(){
-        log(1)
+
     }
 }

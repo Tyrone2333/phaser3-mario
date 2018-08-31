@@ -31,15 +31,13 @@ export default class Koopa extends Enemy {
                 return false
             }
 
-
-
             //  缩壳中
             if (this.isSquished) {
                 // 缩壳在飞
                 if (this.isSquishFly) {
                     this.speed = 300
                     // 这时候可以和 enemy 碰撞并杀死
-                    this.scene.physics.world.collide(this, this.scene.enemiesGroup, (koopa,enemy) => {
+                    this.scene.physics.world.collide(this, this.scene.enemiesGroup, (koopa, enemy) => {
                         enemy.collidingWithFireball()
                     });
                 } else {
@@ -47,7 +45,7 @@ export default class Koopa extends Enemy {
                 }
 
                 // 恢复过程中
-                if (this.timeManage.startRecover < this.timeManage.nowTime && this.timeManage.recoverFinish > this.timeManage.nowTime && !this.isSquished) {
+                if (this.timeManage.startRecover < this.timeManage.nowTime && this.timeManage.recoverFinish > this.timeManage.nowTime && !this.isSquishFly) {
                     // 恢复中,加一层 this.onRecover 防止动画多次播放被覆盖
                     if (this.onRecover) {
                         return
@@ -57,7 +55,7 @@ export default class Koopa extends Enemy {
                     }
                 }
                 //  恢复完成
-                if (this.timeManage.recoverFinish < this.timeManage.nowTime && !this.isSquished) {
+                if (this.timeManage.recoverFinish < this.timeManage.nowTime && !this.isSquishFly) {
                     this.anims.play("koopaWalk_anim")
                     this.direction = -1
                     this.isSquished = false // 是否缩壳

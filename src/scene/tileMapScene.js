@@ -11,6 +11,8 @@ export default class tileMapScene extends Phaser.Scene {
             key: 'tileMapScene'
         })
         this.score = 0
+        this.cameraMode = "keyControl" || "follow" || null // 控制相机是跟随玩家还是用按键控制
+
     }
 
     preload() {
@@ -92,29 +94,6 @@ export default class tileMapScene extends Phaser.Scene {
 
 
         // // 旧 Mario 地图
-        // var map1 = this.make.tilemap({key: 'map1'})
-        // var tileset1 = map1.addTilesetImage('SuperMarioBros-World1-1', 'tiles1')
-        // this.layer1 = map1.createDynamicLayer('World1', tileset1, 0,0)
-        //
-        // let map2 = this.add.tilemap('map3')
-        // var tileset2 = map2.addTilesetImage('SuperMarioBrosMap1-3_bank.png', 'tiles3')
-        // var layer2 = map2.createDynamicLayer('ShoeBox Tile Grab', tileset2, 0, 300)
-        //
-        //
-        // this.layer1.setCollisionByExclusion([1, 2, 3, 12, 11])
-        //
-        // // 12 = 蘑菇🍄
-        // this.layer1.setTileIndexCallback(12, (sprite, tile) => {
-        //     this.score += 10
-        //     this.layer1.removeTileAt(tile.x, tile.y)
-        //     return false
-        // })
-        // // 11 =  金币
-        // this.layer1.setTileIndexCallback(11, (sprite, tile) => {
-        //     this.score += 10
-        //     this.layer1.removeTileAt(tile.x, tile.y)
-        //     return false
-        // })
         // // 在(5,0),宽高为1的位置将tile 半透明(可用于设置暗门)
         // this.layer1.setTileLocationCallback(5, 0, 1, 1, (sprite, tile) => {
         //     tile.alpha = 0.25
@@ -135,41 +114,56 @@ export default class tileMapScene extends Phaser.Scene {
             this.drawDebug()
         })
 
+        /**
+         *  终点前高地   x: 3050,y: 40,
+         *  第一管道   x: 465,y: 140,
+         *  正常起点   x: 50,y: 175,
+         *  管道 - 地底   x: 940,y: 415,
+         *
+         */
         // new player
         this.player = new PlayerSprite({
             scene: this,
-            x: 600,
-            y: 128,
+            x: 465, y: 140,
         })
         this.player.setCollideWorldBounds(true) // 世界碰撞
 
-        this.cameras.main.setScroll(300, 0)
-        // 镜头跟随,开启后镜头控制会被覆盖
-        // this.cameras.main.startFollow(this.player)
-        //  camera 镜头控制
-        let cursors = this.input.keyboard.createCursorKeys()
-        let SmoothedKeyControlConfig = {
-            camera: this.cameras.main,
-            left: cursors.left,
-            right: cursors.right,
-            up: cursors.up,
-            down: cursors.down,
-            zoomIn: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q),
-            zoomOut: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E),
-            acceleration: 0.06,
-            drag: 0.0005,
-            maxSpeed: 1.0
+
+        // camera 相关
+        if (this.cameraMode === "follow") {
+            this.cameras.main.setSize(700, 224)
+            this.cameras.main.setBounds(0, 0, this.sys.game.config.width, this.sys.game.config.height)
+            // 100 是摄像机垂直偏移,因为 startFollow 时如果跳跃就会让镜头也跟着晃动,
+            // 设置为100使 player 偏向底部,同时摄像头有上边界,所以画面看起来不会移动
+            this.cameras.main.startFollow(this.player, true, 1, 1, 0, 100)
+        } else {
+            this.cameras.main.setScroll(300, 0)
+            //  camera 镜头按键控制
+            let cursors = this.input.keyboard.createCursorKeys()
+            let SmoothedKeyControlConfig = {
+                camera: this.cameras.main,
+                left: cursors.left,
+                right: cursors.right,
+                up: cursors.up,
+                down: cursors.down,
+                zoomIn: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q),
+                zoomOut: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E),
+                acceleration: 0.06,
+                drag: 0.0005,
+                maxSpeed: 1.0
+            }
+            let FixedKeyControlConfig = {
+                camera: this.cameras.main,
+                left: cursors.left,
+                right: cursors.right,
+                up: cursors.up,
+                down: cursors.down,
+                speed: 0.5
+            }
+            this.controls = new Phaser.Cameras.Controls.FixedKeyControl(FixedKeyControlConfig)
         }
-        let FixedKeyControlConfig = {
-            camera: this.cameras.main,
-            left: cursors.left,
-            right: cursors.right,
-            up: cursors.up,
-            down: cursors.down,
-            speed: 0.5
-        }
-        this.controls = new Phaser.Cameras.Controls.FixedKeyControl(FixedKeyControlConfig)
         this.cameras.main.setBackgroundColor(0x6888ff)
+
 
         /**
          * 滚动因子控制相机移动对此游戏对象的影响。
@@ -205,23 +199,26 @@ export default class tileMapScene extends Phaser.Scene {
         this.crosshair = this.add.image(0, 0, 'atlas', 'crosshair')
         //刷新 crosshair 的位置
         this.input.on('pointermove', function (mouse) {
-            this.crosshair.setPosition(mouse.x + this.cameras.main.scrollX, mouse.y + this.cameras.main.scrollY);
-            this.debugText.pointPosition.setText("指针:" + mouse.x + "," + mouse.y)
+            this.crosshair.setPosition(mouse.x + this.cameras.main.scrollX, mouse.y + this.cameras.main.scrollY)
+            this.debugText.pointPosition.setText("指针:" + ~~this.crosshair.x + "," + ~~this.crosshair.y)
 
-        }, this);
+        }, this)
+
         this.createGroupFromObjects()
         // 创建碰撞
         this.createCollision()
+
     }
 
     update(time, delta) {
 
-        this.controls.update(delta)
+        if (this.cameraMode === "keyControl") {
+            this.controls.update(delta)
+        }
 
         this.player.update(time, delta)
 
         this.updateText()
-
 
     }
 
@@ -245,12 +242,7 @@ export default class tileMapScene extends Phaser.Scene {
     }
 
     createAnims() {
-        this.anims.create({
-            key: "marioRight_anim",
-            frames: this.anims.generateFrameNumbers("big_mario", {start: 2, end: 4}),
-            frameRate: 8,
-            repeat: -1
-        })
+
         this.anims.create({
             key: "randomBox_anim",
             frames: this.anims.generateFrameNumbers("randomBox", {start: 0, end: 2}),
@@ -320,16 +312,13 @@ export default class tileMapScene extends Phaser.Scene {
         let bricksObjects = this.map.createFromObjects('Bricks', "bricks", {key: 'bricks'})
         this.bricksGroup = this.physics.add.staticGroup()
         bricksObjects.forEach((val, idx) => {
-            // val.body.collideWorldBounds﻿=true
             val.setOrigin(0)
-            // val.setScale(1)
             val.width = val.width * val._scaleX
             val.height = val.height * val._scaleY
             // 图块的原点在左下角,渲染在图上是从中心为起点,不调整会导致obj错位
             val.x = val.x - (val.width / 2)
             val.y = val.y + (val.height / 2)
             val.setScale(1)
-            val.isCollided = false
             this.anims.play('brick_anim', val)
             this.bricksGroup.add(val)
         })
@@ -362,16 +351,14 @@ export default class tileMapScene extends Phaser.Scene {
         let deadZoneObjects = this.map.createFromObjects('DeadZones', "deadZones", {key: 'deadZones'})
         this.deadZoneGroup = this.physics.add.staticGroup()
         deadZoneObjects.forEach((val, idx) => {
-            // val.body.collideWorldBounds﻿=true
             val.setOrigin(0)
-            // val.setScale(1)
             val.width = val.width * val._scaleX
             val.height = val.height * val._scaleY
             // 图块的原点在左下角,渲染在图上是从中心为起点,不调整会导致obj错位
             val.x = val.x - (val.width / 2)
             val.y = val.y + (val.height / 2)
             val.setScale(1)
-            val.isCollided = false
+            val.alpha = 0   // 设置为透明
             this.deadZoneGroup.add(val)
         })
 
@@ -379,9 +366,7 @@ export default class tileMapScene extends Phaser.Scene {
         this.bricksCoinGroup = this.physics.add.staticGroup()
         let bricksCoinObjects = this.map.createFromObjects('BricksCoin', "bricksCoin", {key: 'bricksCoin'})
         bricksCoinObjects.forEach((val, idx) => {
-            // val.body.collideWorldBounds﻿=true
             val.setOrigin(0)
-            // val.setScale(1)
             val.width = val.width * val._scaleX
             val.height = val.height * val._scaleY
             // 图块的原点在左下角,渲染在图上是从中心为起点,不调整会导致obj错位
@@ -408,46 +393,59 @@ export default class tileMapScene extends Phaser.Scene {
 
     createCollision() {
         this.graphicLayer.setCollision([1, 34, 67, 69, 265, 266, 267, 268, 269, 298, 299, 300, 301, 301, 302])
+        this.pipesAccessLayer.setCollision([265, 266])
+        this.exitPipesLayer.setCollision([267, 300])
+        this.finishLevelLayer.setCollision([281, 314])
 
         this.physics.add.collider(this.player, this.graphicLayer)
+        // 进出管道
+        this.physics.add.collider(this.player, this.pipesAccessLayer, (player, tile) => {
+            // blocked 此物体是否与瓷砖或世界边界相撞
+            if (player.body.blocked.down && this.player.keys.down.isDown) {
+                if (this.cameraMode === "follow") {
+                    // 100 是摄像机垂直偏移,因为 startFollow 时如果跳跃就会让镜头也跟着晃动,
+                    // 设置为100使 player 偏向底部,同时摄像头有上边界,所以画面看起来不会移动
+                    this.cameras.main.startFollow(this.player, true, 1, 1, 0, -100)
+                }
+                this.player.setPosition(935, 425)
+
+            }
+
+        })
+        this.physics.add.collider(this.player, this.exitPipesLayer, (player, tile) => {
+            // blocked 此物体是否与瓷砖或世界边界相撞
+            if (player.body.blocked.right && this.player.keys.right.isDown) {
+                if (this.cameraMode === "follow") {
+                    // 100 是摄像机垂直偏移,因为 startFollow 时如果跳跃就会让镜头也跟着晃动,
+                    // 设置为100使 player 偏向底部,同时摄像头有上边界,所以画面看起来不会移动
+                    this.cameras.main.startFollow(this.player, true, 1, 1, 0, 100)
+                }
+                this.player.setPosition(2640, 143)
+            }
+
+        })
+        // 进出管道 END
+
+        //  过关
+        this.physics.add.collider(this.player, this.finishLevelLayer, (player, tile) => {
+            // blocked 此物体是否与瓷砖或世界边界相撞
+            if (player.body.blocked.right || player.body.blocked.left) {
+                this.end("win")
+            }
+        })
+
+
         //  捡金币
         this.physics.add.collider(this.player, this.coinsGroup, (player, coin) => {
             coin.collidingWithPlayer()
         })
         // player 顶有硬币的砖块
         this.physics.add.collider(this.player, this.bricksCoinGroup, (player, brick) => {
-            if (brick.isCollided === true) {
-                return
-            }
-            // player 顶 砖块
-            if (player.body.touching.up && brick.body.touching.down) {
-                // 藏有金币或者蘑菇的才设置
-                brick.isCollided = true
-                this.tweens.add({
-                    targets: brick,
-                    // x: brick.x,
-                    y: brick.y - 8,
-                    callbackScope: this,
-                    duration: 100,  // 持续时间
-                    ease: 'Quintic',    // Phaser.Math. Easing
-                    yoyo: true,
-                    onComplete: function (tween) {
-                        brick.anims.play("blockCollisioned_anim")
-                    },
-                })
-                let coin = new Coin({
-                    scene: this,
-                    x: brick.x + 8,
-                    y: brick.y + 8 - 16,
-                })
-                coin.collidingBricksCoin()
-            }
+            player.collidingWithbricksCoinGroup(player, brick)
         })
         // player 顶普通砖块
         this.physics.add.collider(this.player, this.bricksGroup, (player, brick) => {
-            if (player.body.touching.up && brick.body.touching.down) {
-                brick.destroy()
-            }
+            player.collidingWithbricksGroup(player, brick)
         })
         // fireball 打墙
         this.physics.add.collider(this.playerAttackGroup, this.graphicLayer, (fireball, tile) => {
@@ -458,8 +456,6 @@ export default class tileMapScene extends Phaser.Scene {
             fireball.collidedExplode()
             enemy.collidingWithFireball()
         })
-
-        //  TODO:   重复 overlap 会导致 dieSetting 重复生成用于移除的倒计时
         this.physics.add.overlap(this.player, this.enemiesGroup, (player, enemy) => {
             enemy.collidingWithPlayer()
         })
@@ -470,9 +466,37 @@ export default class tileMapScene extends Phaser.Scene {
         })
         // enemy 掉坑里
         this.physics.add.overlap(this.enemiesGroup, this.deadZoneGroup, (enemy, deadZone) => {
-            enemy.dieSetting()
+            enemy.fallInDeadZone()
         })
 
     }
+
+    end(type) {
+        if (type === 'restart') {
+            this.scene.restart()
+        } else if (type === 'lose') {
+            this.cameras.main.fade(1000, 16.5, 2.0, 1.2)
+            this.events.emit('gameOver')
+            this.time.addEvent({
+                delay: 1000,
+                callbackScope: this,
+                callback: () => {
+                    this.scene.start('gameOverScene', 'lose')
+                },
+
+            })
+        } else if (type === 'win') {
+            this.cameras.main.fade(1000, 16.5, 2.0, 1.2)
+            this.events.emit('gameOver')
+            this.time.addEvent({
+                delay: 1000,
+                callbackScope: this,
+                callback: () => {
+                    this.scene.start('gameOverScene', 'win')
+                },
+            })
+        }
+    }
+
 }
 
