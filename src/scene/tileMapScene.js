@@ -11,9 +11,14 @@ export default class tileMapScene extends Phaser.Scene {
             key: 'tileMapScene'
         })
         this.score = 0
-        this.cameraMode = "keyControl" || "follow" || null // 控制相机是跟随玩家还是用按键控制
+        this.cameraMode = "follow" ||"keyControl" ||  null // 控制相机是跟随玩家还是用按键控制
     }
 
+    init(config){
+        this.restartConfig = config
+        this.score = this.restartConfig || 0
+
+    }
     preload() {
         this.load.image('sky', 'resource/image/sky.png')
 
@@ -79,6 +84,9 @@ export default class tileMapScene extends Phaser.Scene {
 
     create() {
         // this.add.image(0, 0, 'sky').setOrigin(0, 0)
+
+        this.registry.set('coins_max', true);
+        this.initRegister()
         this.createAnims()
 
         // 带 object 的 mario 地图
@@ -126,10 +134,9 @@ export default class tileMapScene extends Phaser.Scene {
         this.player = new PlayerSprite({
             scene: this,
             x: 465, y: 140,
-        })
+        },this.restartConfig.player)
         this.player.setCollideWorldBounds(true) // 世界碰撞
 
-        log(this.player.texture)
 
         // camera 相关
         if (this.cameraMode === "follow") {
@@ -500,5 +507,8 @@ export default class tileMapScene extends Phaser.Scene {
         }
     }
 
+    initRegister(){
+        log(    this.registry.get('coins_max' ))
+    }
 }
 

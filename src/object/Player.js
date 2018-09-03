@@ -2,7 +2,7 @@ import Fireball from "./Fireball"
 import Coin from "./Coin";
 
 export default class PlayerSprite extends Phaser.Physics.Arcade.Sprite {
-    constructor(config) {
+    constructor(config,restartConfig) {
         super(config.scene, config.x, config.y, "small_mario")
         config.scene.physics.world.enable(this)
         this.scene = config.scene
@@ -23,11 +23,14 @@ export default class PlayerSprite extends Phaser.Physics.Arcade.Sprite {
         }
         this.currentModeIndex = 3
 
+        this.dieAnimPlaying = false
+
         // 创建人物动画
         this.creatAnims()
         // 添加控制按键
         this.creatControls()
 
+        log(restartConfig)
 
     }
 
@@ -36,7 +39,16 @@ export default class PlayerSprite extends Phaser.Physics.Arcade.Sprite {
         if (this.alive) {
             // 控制移动
             this.isJumping = this.body.blocked.none && this.body.velocity !== 0
-            if (this.keys.left.isDown) {
+            /**
+             *   TODO: BUG 蹲下前有速度将会无限滑行.需要重新设置下蹲后的size
+             */
+            if (this.keys.down.isDown) {
+                if (this.bigMode) {
+                    this.anims.play("bigSquat_anim")
+                    // this.setSize(16,22)
+                }
+            }
+            else if (this.keys.left.isDown) {
                 this.direction = -1
                 this.body.velocity.x = this.direction * this.speed
                 if (this.isJumping) return   // 为了阻挡左右的动画覆盖跳跃动画
@@ -50,9 +62,10 @@ export default class PlayerSprite extends Phaser.Physics.Arcade.Sprite {
             }
             // 触地才允许跳跃
             else if (this.keys.up.isDown && this.body.blocked.down) {
-                // else if (this.keys.up.isDown) {
+                // else if (this.keys.up.isDown) {  // 无限跳
                 this.jump()
             }
+
             else if (this.isJumping) {
                 if (this.direction === 1) {
                     this.bigMode ? this.anims.play('bigJumpRight_anim', true) : this.anims.play('jumpRight_anim', true)
@@ -70,40 +83,10 @@ export default class PlayerSprite extends Phaser.Physics.Arcade.Sprite {
 
                 }
             }
-        } else {
-            //  TODO 判定一直存在,会重复执行
-            // 死亡动画
-            let timeline = this.scene.tweens.createTimeline()
-            timeline.add({
-                targets: this,
-                y: this.y - 16,
-                ease: 'Power1',
-                duration: 600
-            })
-            timeline.add({
-                targets: this,
-                y: this.y + 600,
-                ease: 'Power1',
-                duration: 3000
-            })
-            timeline.play()
-            // 死亡动画   END
-
-            if (this.life > 0) {
-                // TODO 复活,重开游戏
-                // this.scene.start('gameScene', {
-                //     life: this.life,
-                //     difficult: "easy",
-                // })
-                log("die")
-            } else {
-                //  生命用完,结束
-
-                this.scene.start('gameOverScene', {
-                    result: "lose",
-                    score: this.scene.score,
-                })
-            }
+        }
+        // !this.alive
+        else {
+            this.die()
         }
 
 
@@ -115,9 +98,9 @@ export default class PlayerSprite extends Phaser.Physics.Arcade.Sprite {
 
 
     changeMode(condition) {
-        // upgrade  downgrade
+        // 模式转换用 upgrade  downgrade, 这里只设置各个模式中的 player 参数,而不执行动画之类
         const DIE_MODE = () => {
-            this.life --
+            this.life--
             this.alive = false
             this.direction = 0
             this.body.velocity.x = 0
@@ -146,7 +129,7 @@ export default class PlayerSprite extends Phaser.Physics.Arcade.Sprite {
             this.ability.fireball = true
         }
         //  模式只能按序升降级
-        const MODE_ARR = [DIE_MODE,SMALL_MODE, BIG_MODE, FIRE_MODE]
+        const MODE_ARR = [DIE_MODE, SMALL_MODE, BIG_MODE, FIRE_MODE]
 
 
         if (condition === "upgrade") {
@@ -236,6 +219,18 @@ export default class PlayerSprite extends Phaser.Physics.Arcade.Sprite {
             frameRate: 1,
             repeat: 1
         })
+        this.scene.anims.create({
+            key: "die_anim",
+            frames: this.scene.anims.generateFrameNumbers("small_mario", {start: 6, end: 6}),
+            frameRate: 1,
+            repeat: 1
+        })
+        this.scene.anims.create({
+            key: "bigSquat_anim",
+            frames: this.scene.anims.generateFrameNumbers("big_mario", {start: 6, end: 6}),
+            frameRate: 1,
+            repeat: 1
+        })
 
 
     }
@@ -318,5 +313,56 @@ export default class PlayerSprite extends Phaser.Physics.Arcade.Sprite {
         }
     }
 
+
+    // player 死亡
+    die() {
+
+        //  没有判定,会重复执行动画
+        if (!this.dieAnimPlaying) {
+            this.dieAnimPlaying = true
+
+            this.anims.play("die_anim")
+            this.scene.cameras.main.stopFollow()
+            // 死亡动画
+            let timeline = this.scene.tweens.createTimeline()
+            timeline.add({
+                targets: this,
+                y: this.y - 16,
+                ease: 'Power1',
+                duration: 600
+            })
+            timeline.add({
+                targets: this,
+                y: this.y + 600,
+                ease: 'Power1',
+                duration: 2000,
+                onComplete: (tween) => {
+                    if (this.life > 0) {
+                        // TODO 复活,重开游戏
+                        // this.scene.start('gameScene', {
+                        //     life: this.life,
+                        //     difficult: "easy",
+                        // })
+                        this.scene.scene.start('tileMapScene', {
+                            // 重新开始游戏,将 player 重生需要设置的参数放在这里
+                            result: "lose",
+                            score: this.scene.score,
+                        })
+
+                    } else {
+                        //  生命用完,结束
+                        this.scene.scene.start('gameOverScene', {
+                            result: "lose",
+                            score: this.scene.score,
+                        })
+                    }
+                },
+            })
+            timeline.play()
+            // 死亡动画   END
+        }
+
+
+    }
 
 }
