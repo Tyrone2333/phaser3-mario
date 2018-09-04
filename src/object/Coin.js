@@ -35,7 +35,8 @@ export default class Coin extends Phaser.Physics.Arcade.Sprite {
             }
         })
     }
-    collidingWithPlayer(){
+
+    collidingWithPlayer() {
         this.scene.score += 50
         this.destroy()
     }

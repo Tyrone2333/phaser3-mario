@@ -3,6 +3,7 @@ import Enemy from "../object/Enemy"
 import Goomba from "../object/Goomba"
 import Koopa from "../object/Koopa"
 import Coin from "../object/Coin"
+import Mushroom from "../object/Mushroom"
 import Test from "../object/test"
 
 export default class tileMapScene extends Phaser.Scene {
@@ -10,15 +11,29 @@ export default class tileMapScene extends Phaser.Scene {
         super({
             key: 'tileMapScene'
         })
-        this.score = 0
-        this.cameraMode = "follow" ||"keyControl" ||  null // 控制相机是跟随玩家还是用按键控制
+
+        this.cameraMode = "keyControl" || "follow" || null // 控制相机是跟随玩家还是用按键控制
     }
 
-    init(config){
-        this.restartConfig = config
-        this.score = this.restartConfig || 0
+    init(restartConfig) {
+        if (JSON.stringify(restartConfig) === "{}") {
+            // 默认配置
+            this.gameConfig = {
+                scene: {
+                    score: 0,
+
+                },
+                player: {
+                    life: 3
+
+                }
+            }
+        } else {
+            this.gameConfig = restartConfig
+        }
 
     }
+
     preload() {
         this.load.image('sky', 'resource/image/sky.png')
 
@@ -52,6 +67,7 @@ export default class tileMapScene extends Phaser.Scene {
         this.load.spritesheet('brickCoins', 'resource/img/Levels/brickCoins.png', {frameWidth: 16, frameHeight: 16})
         this.load.spritesheet('brickCoins2', 'resource/img/Levels/brickCoins_2.png', {frameWidth: 16, frameHeight: 16})
         this.load.spritesheet('coinBlock', 'resource/img/Items/coinBlock.png', {frameWidth: 16, frameHeight: 16})
+        this.load.spritesheet('mushroom', 'resource/img/Items/mushroom.png', {frameWidth: 16, frameHeight: 16})
         this.load.image('tileset_levels', 'resource/tilemap/tileset_levels.png')
 
         //  自己制作的tilemap
@@ -84,8 +100,9 @@ export default class tileMapScene extends Phaser.Scene {
 
     create() {
         // this.add.image(0, 0, 'sky').setOrigin(0, 0)
+        // 一些参数
+        this.score = this.gameConfig.scene.score
 
-        this.registry.set('coins_max', true);
         this.initRegister()
         this.createAnims()
 
@@ -122,6 +139,7 @@ export default class tileMapScene extends Phaser.Scene {
 
 
             this.player.changeMode("downgrade")
+            // this.player.changeMode("upgrade")
         })
         /**
          *  终点前高地   x: 3050,y: 40,
@@ -133,8 +151,9 @@ export default class tileMapScene extends Phaser.Scene {
         // new player
         this.player = new PlayerSprite({
             scene: this,
-            x: 465, y: 140,
-        },this.restartConfig.player)
+            x: 345, y: 180,
+        }, this.gameConfig.player)
+
         this.player.setCollideWorldBounds(true) // 世界碰撞
 
 
@@ -184,7 +203,8 @@ export default class tileMapScene extends Phaser.Scene {
          */
         this.scoreText = this.add.text(0, 0, "score : 0").setScrollFactor(0)
         this.debugText = {
-            pointPosition: this.add.text(0, 50, "指针:").setScrollFactor(0)
+            pointPosition: this.add.text(0, 50, "指针:").setScrollFactor(0),
+            playerLife: this.add.text(100, 0, "生命:").setScrollFactor(0)
         }
 
 
@@ -195,23 +215,15 @@ export default class tileMapScene extends Phaser.Scene {
         }, this)
 
 
-        //create attack group to hold player's fireballs
-        this.playerAttackGroup = this.add.group(null)
-        this.playerAttackGroup.runChildUpdate = true
-        this.enemiesGroup = this.add.group(null)
-        this.enemiesGroup.runChildUpdate = true
-        this.coinsGroup = this.add.group(null)
-        this.coinsGroup.runChildUpdate = true
+
 
 
         //create crosshair(十字准线) which is controlled by player class
         this.crosshair = this.add.image(0, 0, 'atlas', 'crosshair')
         //刷新 crosshair 的位置
-        this.input.on('pointermove', function (mouse) {
+        this.input.on('pointermove', (mouse) => {
             this.crosshair.setPosition(mouse.x + this.cameras.main.scrollX, mouse.y + this.cameras.main.scrollY)
-            this.debugText.pointPosition.setText("指针:" + ~~this.crosshair.x + "," + ~~this.crosshair.y)
-
-        }, this)
+        })
 
         this.createGroupFromObjects()
         // 创建碰撞
@@ -248,10 +260,11 @@ export default class tileMapScene extends Phaser.Scene {
 
     updateText() {
         this.scoreText.setText("score :" + this.score)
+        this.debugText.pointPosition.setText("指针:" + ~~this.crosshair.x + "," + ~~this.crosshair.y)
+        this.debugText.playerLife.setText("生命:" + this.player.life)
     }
 
     createAnims() {
-
         this.anims.create({
             key: "randomBox_anim",
             frames: this.anims.generateFrameNumbers("randomBox", {start: 0, end: 2}),
@@ -312,25 +325,33 @@ export default class tileMapScene extends Phaser.Scene {
             frameRate: 4,
             repeat: -1
         })
-
+        // 蘑菇🍄
+        this.anims.create({
+            key: "mushroom_anim",
+            frames: this.anims.generateFrameNumbers("mushroom", {start: 0, end: 0}),
+            frameRate: 1,
+            repeat: 1
+        })
 
     }
 
     createGroupFromObjects() {
+        //create attack group to hold player's fireballs
+        this.playerAttackGroup = this.add.group(null)
+        this.playerAttackGroup.runChildUpdate = true
+        this.enemiesGroup = this.add.group(null)
+        this.enemiesGroup.runChildUpdate = true
+        this.coinsGroup = this.add.group(null)
+        this.coinsGroup.runChildUpdate = true
+        this.mushroomGroup = this.add.group(null)
+        this.mushroomGroup.runChildUpdate = true
+        this.flowerGroup = this.add.group(null)
+        this.flowerGroup.runChildUpdate = true
+
         // 砖块
         let bricksObjects = this.map.createFromObjects('Bricks', "bricks", {key: 'bricks'})
         this.bricksGroup = this.physics.add.staticGroup()
-        bricksObjects.forEach((val, idx) => {
-            val.setOrigin(0)
-            val.width = val.width * val._scaleX
-            val.height = val.height * val._scaleY
-            // 图块的原点在左下角,渲染在图上是从中心为起点,不调整会导致obj错位
-            val.x = val.x - (val.width / 2)
-            val.y = val.y + (val.height / 2)
-            val.setScale(1)
-            this.anims.play('brick_anim', val)
-            this.bricksGroup.add(val)
-        })
+        this.objectsAddToGroup(bricksObjects, 'brick_anim', this.bricksGroup)
 
         // 生成敌人 Goombas
         this.map.getObjectLayer('Goombas').objects.forEach((obj) => {
@@ -353,7 +374,6 @@ export default class tileMapScene extends Phaser.Scene {
             )
             koopa.body.height = obj.height
             this.enemiesGroup.add(koopa)
-
         })
 
         //  死亡空间
@@ -374,19 +394,8 @@ export default class tileMapScene extends Phaser.Scene {
         // 砖里有金币为 bricksCoin 有多个金币为 BricksCoins
         this.bricksCoinGroup = this.physics.add.staticGroup()
         let bricksCoinObjects = this.map.createFromObjects('BricksCoin', "bricksCoin", {key: 'bricksCoin'})
-        bricksCoinObjects.forEach((val, idx) => {
-            val.setOrigin(0)
-            val.width = val.width * val._scaleX
-            val.height = val.height * val._scaleY
-            // 图块的原点在左下角,渲染在图上是从中心为起点,不调整会导致obj错位
-            val.x = val.x - (val.width / 2)
-            val.y = val.y + (val.height / 2)
-            val.setScale(1)
-            val.isCollided = false
+        this.objectsAddToGroup(bricksCoinObjects, 'randomBox_anim', this.bricksCoinGroup)
 
-            this.anims.play('randomBox_anim', val)
-            this.bricksCoinGroup.add(val)
-        })
         // 地上的金币
         this.map.getObjectLayer('Coins').objects.forEach((obj) => {
             let coin = new Coin({
@@ -397,7 +406,26 @@ export default class tileMapScene extends Phaser.Scene {
             this.coinsGroup.add(coin)
         })
 
+        // 蘑菇或花的砖块
+        this.bricksFlowerOrMushroomGroup = this.physics.add.staticGroup()
+        let BricksFlowerOrMushroomObjects = this.map.createFromObjects('BricksFlowerOrMushroom', "bricksFlowerOrMushroom", {key: 'bricksFlowerOrMushroom'})
+        this.objectsAddToGroup(BricksFlowerOrMushroomObjects, 'randomBox_anim', this.bricksFlowerOrMushroomGroup)
 
+    }
+
+    objectsAddToGroup(objs, anim, group) {
+        objs.forEach((val, idx) => {
+            val.setOrigin(0)
+            val.width = val.width * val._scaleX
+            val.height = val.height * val._scaleY
+            // 图块的原点在左下角,渲染在图上是从中心为起点,不调整会导致obj错位
+            val.x = val.x - (val.width / 2)
+            val.y = val.y + (val.height / 2)
+            val.setScale(1)
+            val.isCollided = false
+            this.anims.play(anim, val)
+            group.add(val)
+        })
     }
 
     createCollision() {
@@ -452,6 +480,10 @@ export default class tileMapScene extends Phaser.Scene {
         this.physics.add.collider(this.player, this.bricksCoinGroup, (player, brick) => {
             player.collidingWithbricksCoinGroup(player, brick)
         })
+        // player 顶有蘑菇或花的砖块
+        this.physics.add.collider(this.player, this.bricksFlowerOrMushroomGroup, (player, brick) => {
+            player.collidingWithbricksFlowerOrMushroomGroup(player, brick)
+        })
         // player 顶普通砖块
         this.physics.add.collider(this.player, this.bricksGroup, (player, brick) => {
             player.collidingWithbricksGroup(player, brick)
@@ -477,8 +509,14 @@ export default class tileMapScene extends Phaser.Scene {
         this.physics.add.overlap(this.enemiesGroup, this.deadZoneGroup, (enemy, deadZone) => {
             enemy.fallInDeadZone()
         })
-
+        // 蘑菇和砖块需要碰撞
+        this.physics.add.collider(this.mushroomGroup, this.bricksGroup, () => {        })
+        // player 吃蘑菇
+        this.physics.add.overlap(this.player, this.mushroomGroup, (player, mushroom) => {
+            mushroom.collidingWithPlayer(player, mushroom)
+        })
     }
+
 
     end(type) {
         if (type === 'restart') {
@@ -507,8 +545,26 @@ export default class tileMapScene extends Phaser.Scene {
         }
     }
 
-    initRegister(){
-        log(    this.registry.get('coins_max' ))
+    initRegister() {
+        this.registry.set('coins_max', "coins_max")
+        // this.registry.get('coins_max')
+    }
+
+    restartGame() {
+        // 重启需要使用的参数,场景 player 等
+        let restartConfig = {
+            scene: {
+                score: this.score,
+
+            },
+            player: {
+                life: this.player.life
+
+            }
+        }
+
+        this.scene.start('tileMapScene', restartConfig)
+
     }
 }
 

@@ -1,27 +1,29 @@
 import Fireball from "./Fireball"
 import Coin from "./Coin";
+import Mushroom from "./Mushroom";
 
 export default class PlayerSprite extends Phaser.Physics.Arcade.Sprite {
-    constructor(config,restartConfig) {
+    constructor(config, gameConfig) {
         super(config.scene, config.x, config.y, "small_mario")
+
         config.scene.physics.world.enable(this)
         this.scene = config.scene
         this.scene.add.existing(this)// 没这个就无法显示在scene
         this.scene.physics.world.enable(this)
 
-        this.bigMode = false    // 改变大小需使用 changeSizeMode(mode)
+        this.bigMode = false    // 改变大小需使用 changeMode(mode)
         this.fireMode = false   // 火 mario
         this.direction = 1 // 向右
         this.speed = 150
         this.jumpSpeed = 210
-        this.life = 3
+        this.life = gameConfig.life || 3  //重玩的话继承原来的生命值
         this.alive = true
         this.isJumping = false
         this.ability = {
             fireball: false,   // 丢火球
             invincible: false, // 无敌(吃星星)
         }
-        this.currentModeIndex = 3
+        this.currentModeIndex = 1
 
         this.dieAnimPlaying = false
 
@@ -30,12 +32,9 @@ export default class PlayerSprite extends Phaser.Physics.Arcade.Sprite {
         // 添加控制按键
         this.creatControls()
 
-        log(restartConfig)
-
     }
 
     update(time, delta) {
-
         if (this.alive) {
             // 控制移动
             this.isJumping = this.body.blocked.none && this.body.velocity !== 0
@@ -96,7 +95,6 @@ export default class PlayerSprite extends Phaser.Physics.Arcade.Sprite {
         this.body.velocity.y = this.jumpSpeed * -1
     }
 
-
     changeMode(condition) {
         // 模式转换用 upgrade  downgrade, 这里只设置各个模式中的 player 参数,而不执行动画之类
         const DIE_MODE = () => {
@@ -121,7 +119,7 @@ export default class PlayerSprite extends Phaser.Physics.Arcade.Sprite {
             // this.setTexture("big_mario",this.anims.currentFrame.index)
             this.setTexture("big_mario", this.frame.name)    // 替换内容和当前 frame 动作相同
             this.setSize(16, 32)
-            this.y -= 8
+            this.y -= 16
             this.originY = 0.25 // 此游戏对象的垂直原点
         }
         const FIRE_MODE = () => {
@@ -134,10 +132,8 @@ export default class PlayerSprite extends Phaser.Physics.Arcade.Sprite {
 
         if (condition === "upgrade") {
             this.currentModeIndex = this.currentModeIndex < MODE_ARR.length - 1 ? ++this.currentModeIndex : this.currentModeIndex
-            log(this.currentModeIndex)
         } else if (condition === "downgrade") {
             this.currentModeIndex = this.currentModeIndex > 0 ? --this.currentModeIndex : 0
-            log(this.currentModeIndex)
         }
 
         //  执行当前模式
@@ -246,7 +242,7 @@ export default class PlayerSprite extends Phaser.Physics.Arcade.Sprite {
         // 攻击
         this.scene.input.on('pointerdown', function (pointer) {
             // let magic = this.scene.registry.get('magic_current')
-            if (1) {
+            if (this.ability.fireball) {
                 let fireball = new Fireball({
                     scene: this.scene,
                     x: this.x,
@@ -313,6 +309,38 @@ export default class PlayerSprite extends Phaser.Physics.Arcade.Sprite {
         }
     }
 
+    // player 顶有蘑菇或花的砖块
+    collidingWithbricksFlowerOrMushroomGroup(player, brick) {
+        if (brick.isCollided === true) {
+            return
+        }
+        // player 顶 砖块
+        if (player.body.touching.up && brick.body.touching.down) {
+            // 藏有金币或者蘑菇的才设置
+            brick.isCollided = true
+            this.scene.tweens.add({
+                targets: brick,
+                // x: brick.x,
+                y: brick.y - 8,
+                callbackScope: this,
+                duration: 100,  // 持续时间
+                ease: 'Quintic',    // Phaser.Math. Easing
+                yoyo: true,
+                onComplete: function (tween) {
+                    brick.anims.play("blockCollisioned_anim")
+                },
+            })
+            let mushroom = new Mushroom({
+                scene: this.scene,
+                x: brick.x + 8,
+                y: brick.y + 8 - 16,
+            })
+            this.scene.mushroomGroup.add(mushroom)
+            mushroom.collidingBricks()
+
+        }
+    }
+
 
     // player 死亡
     die() {
@@ -338,16 +366,8 @@ export default class PlayerSprite extends Phaser.Physics.Arcade.Sprite {
                 duration: 2000,
                 onComplete: (tween) => {
                     if (this.life > 0) {
-                        // TODO 复活,重开游戏
-                        // this.scene.start('gameScene', {
-                        //     life: this.life,
-                        //     difficult: "easy",
-                        // })
-                        this.scene.scene.start('tileMapScene', {
-                            // 重新开始游戏,将 player 重生需要设置的参数放在这里
-                            result: "lose",
-                            score: this.scene.score,
-                        })
+
+                        this.scene.restartGame()
 
                     } else {
                         //  生命用完,结束
