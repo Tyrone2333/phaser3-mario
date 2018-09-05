@@ -23,6 +23,11 @@ export default class Koopa extends Enemy {
     }
 
     update(time, delta) {
+        // 在视野之外,停止运动
+        if(Math.abs(  this.x - this.scene.player.x ) >= 450){
+            return
+        }
+
         this.timeManage.nowTime = time
         if (this.alive) {
             if (this.life <= 0) {
@@ -103,6 +108,15 @@ export default class Koopa extends Enemy {
                 this.timeManage.recoverFinish = this.timeManage.startRecover + this.recoveryInterval
             }
 
+        }
+        // 不是踩死,普通碰撞
+        else {
+            if (this.alive && !this.isSquished){
+                this.scene.player.collidingWithEnemyGroup()
+            }
+            if( this.isSquishFly){
+                this.scene.player.collidingWithEnemyGroup()
+            }
         }
     }
 

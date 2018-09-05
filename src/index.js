@@ -13,10 +13,9 @@ const config = {
     roundPixels: true,
     parent: 'phaser-example',
     title: 'tileMap test',
-    width: 3840,
-    height: 624,
-    gameWidth:256,
-    gameHeight:217,
+    width: 750,
+    height: 224,
+
     level1Width:3840,
     level1Height:624,
     // width: window.innerWidth,

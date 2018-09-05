@@ -4,6 +4,7 @@ import Goomba from "../object/Goomba"
 import Koopa from "../object/Koopa"
 import Coin from "../object/Coin"
 import Mushroom from "../object/Mushroom"
+import Flower from "../object/Flower"
 import Test from "../object/test"
 
 export default class tileMapScene extends Phaser.Scene {
@@ -11,8 +12,14 @@ export default class tileMapScene extends Phaser.Scene {
         super({
             key: 'tileMapScene'
         })
+        // 控制相机是跟随玩家还是用按键控制,把需要的模式放在最前面
+        this.cameraMode = "follow" || "keyControl" || null
 
-        this.cameraMode = "keyControl" || "follow" || null // 控制相机是跟随玩家还是用按键控制
+        this.level = {
+            width: 3840,
+            height: 624
+        }
+
     }
 
     init(restartConfig) {
@@ -49,7 +56,7 @@ export default class tileMapScene extends Phaser.Scene {
 
         // 带 object 的 mario 地图
         this.load.tilemapTiledJSON({key: 'level1', url: 'resource/tilemap/level1.json'})
-        // 砖块
+        // 砖块等物体
         this.load.spritesheet('brick', 'resource/img/Levels/brick.png', {frameWidth: 16, frameHeight: 16})
         this.load.spritesheet('blockCollisioned', 'resource/img/Levels/blockCollisioned.png', {
             frameWidth: 16,
@@ -68,6 +75,7 @@ export default class tileMapScene extends Phaser.Scene {
         this.load.spritesheet('brickCoins2', 'resource/img/Levels/brickCoins_2.png', {frameWidth: 16, frameHeight: 16})
         this.load.spritesheet('coinBlock', 'resource/img/Items/coinBlock.png', {frameWidth: 16, frameHeight: 16})
         this.load.spritesheet('mushroom', 'resource/img/Items/mushroom.png', {frameWidth: 16, frameHeight: 16})
+        this.load.spritesheet('flower', 'resource/img/Items/flower.png', {frameWidth: 16, frameHeight: 16})
         this.load.image('tileset_levels', 'resource/tilemap/tileset_levels.png')
 
         //  自己制作的tilemap
@@ -75,6 +83,7 @@ export default class tileMapScene extends Phaser.Scene {
         this.load.tilemapTiledJSON({key: 'test_tilemap2', url: 'resource/tilemap/test_tilemap_2.json'})
         this.load.image("enemies_tileset", "resource/tilemap/EnemiesGeneral.png")
 
+        // 生物等
         this.load.image("sheet_tileset", "resource/image/sheet_tileset.png")
         this.load.image("super_mario_tileset", "resource/image/super-mario.png")
         this.load.spritesheet('small_mario', 'resource/tilemap/small_mario.png', {frameWidth: 16, frameHeight: 16})
@@ -151,7 +160,7 @@ export default class tileMapScene extends Phaser.Scene {
         // new player
         this.player = new PlayerSprite({
             scene: this,
-            x: 345, y: 180,
+            x: 50, y: 175,
         }, this.gameConfig.player)
 
         this.player.setCollideWorldBounds(true) // 世界碰撞
@@ -160,7 +169,8 @@ export default class tileMapScene extends Phaser.Scene {
         // camera 相关
         if (this.cameraMode === "follow") {
             this.cameras.main.setSize(700, 224)
-            this.cameras.main.setBounds(0, 0, this.sys.game.config.width, this.sys.game.config.height)
+            // 设置边界
+            this.cameras.main.setBounds(0, 0, this.level.width, this.level.height)
             // 100 是摄像机垂直偏移,因为 startFollow 时如果跳跃就会让镜头也跟着晃动,
             // 设置为100使 player 偏向底部,同时摄像头有上边界,所以画面看起来不会移动
             this.cameras.main.startFollow(this.player, true, 1, 1, 0, 100)
@@ -204,7 +214,7 @@ export default class tileMapScene extends Phaser.Scene {
         this.scoreText = this.add.text(0, 0, "score : 0").setScrollFactor(0)
         this.debugText = {
             pointPosition: this.add.text(0, 50, "指针:").setScrollFactor(0),
-            playerLife: this.add.text(100, 0, "生命:").setScrollFactor(0)
+            playerLife: this.add.text(120, 0, "生命:").setScrollFactor(0)
         }
 
 
@@ -213,9 +223,6 @@ export default class tileMapScene extends Phaser.Scene {
 
             log("this.events.on('drawDebugEvent') 参数: " + arguments[0])
         }, this)
-
-
-
 
 
         //create crosshair(十字准线) which is controlled by player class
@@ -332,6 +339,13 @@ export default class tileMapScene extends Phaser.Scene {
             frameRate: 1,
             repeat: 1
         })
+        // 花✿
+        this.anims.create({
+            key: "flower_anim",
+            frames: this.anims.generateFrameNumbers("flower", {start: 0, end: 3}),
+            frameRate: 4,
+            repeat: -1
+        })
 
     }
 
@@ -343,8 +357,8 @@ export default class tileMapScene extends Phaser.Scene {
         this.enemiesGroup.runChildUpdate = true
         this.coinsGroup = this.add.group(null)
         this.coinsGroup.runChildUpdate = true
-        this.mushroomGroup = this.add.group(null)
-        this.mushroomGroup.runChildUpdate = true
+        this.mushroomOrFlowerGroup = this.add.group(null)
+        this.mushroomOrFlowerGroup.runChildUpdate = true
         this.flowerGroup = this.add.group(null)
         this.flowerGroup.runChildUpdate = true
 
@@ -358,7 +372,7 @@ export default class tileMapScene extends Phaser.Scene {
             let goomba = new Goomba(
                 this,
                 obj.x + 8,
-                obj.y + 16,
+                obj.y + 8,
                 "brick"
             )
             this.enemiesGroup.add(goomba)
@@ -435,7 +449,7 @@ export default class tileMapScene extends Phaser.Scene {
         this.finishLevelLayer.setCollision([281, 314])
 
         this.physics.add.collider(this.player, this.graphicLayer)
-        // 进出管道
+        // 进管道
         this.physics.add.collider(this.player, this.pipesAccessLayer, (player, tile) => {
             // blocked 此物体是否与瓷砖或世界边界相撞
             if (player.body.blocked.down && this.player.keys.down.isDown) {
@@ -449,6 +463,7 @@ export default class tileMapScene extends Phaser.Scene {
             }
 
         })
+        // 出管道
         this.physics.add.collider(this.player, this.exitPipesLayer, (player, tile) => {
             // blocked 此物体是否与瓷砖或世界边界相撞
             if (player.body.blocked.right && this.player.keys.right.isDown) {
@@ -502,17 +517,22 @@ export default class tileMapScene extends Phaser.Scene {
         })
 
         // player 掉坑里
-        this.physics.add.overlap(this.player, this.deadZoneGroup, (player, deadZone) => {
-
+        this.physics.add.collider(this.player, this.deadZoneGroup, (player, deadZone) => {
+            player.fallInDeadZone()
         })
         // enemy 掉坑里
         this.physics.add.overlap(this.enemiesGroup, this.deadZoneGroup, (enemy, deadZone) => {
             enemy.fallInDeadZone()
         })
+        // enemy 需要和砖块碰撞
+        this.physics.add.collider(this.enemiesGroup, this.bricksGroup, () => {
+        })
+
         // 蘑菇和砖块需要碰撞
-        this.physics.add.collider(this.mushroomGroup, this.bricksGroup, () => {        })
+        this.physics.add.collider(this.mushroomOrFlowerGroup, this.bricksGroup, () => {
+        })
         // player 吃蘑菇
-        this.physics.add.overlap(this.player, this.mushroomGroup, (player, mushroom) => {
+        this.physics.add.overlap(this.player, this.mushroomOrFlowerGroup, (player, mushroom) => {
             mushroom.collidingWithPlayer(player, mushroom)
         })
     }

@@ -20,6 +20,12 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     }
 
     update() {
+
+        // 在视野之外,停止运动
+        if(Math.abs(  this.x - this.scene.player.x ) >= 450){
+            return
+        }
+
         if (this.alive) {
             if (this.life <= 0) {
                 this.alive = false

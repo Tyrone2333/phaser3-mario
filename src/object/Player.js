@@ -1,6 +1,7 @@
 import Fireball from "./Fireball"
-import Coin from "./Coin";
-import Mushroom from "./Mushroom";
+import Coin from "./Coin"
+import Mushroom from "./Mushroom"
+import Flower from "./Flower"
 
 export default class PlayerSprite extends Phaser.Physics.Arcade.Sprite {
     constructor(config, gameConfig) {
@@ -134,6 +135,8 @@ export default class PlayerSprite extends Phaser.Physics.Arcade.Sprite {
             this.currentModeIndex = this.currentModeIndex < MODE_ARR.length - 1 ? ++this.currentModeIndex : this.currentModeIndex
         } else if (condition === "downgrade") {
             this.currentModeIndex = this.currentModeIndex > 0 ? --this.currentModeIndex : 0
+        } else if (condition === "die"){
+            this.currentModeIndex = 0
         }
 
         //  执行当前模式
@@ -258,6 +261,7 @@ export default class PlayerSprite extends Phaser.Physics.Arcade.Sprite {
         }, this)
     }
 
+    //  TODO 把砖块抽象成一个类
     // player 顶有硬币的砖块
     collidingWithbricksCoinGroup(player, brick) {
         if (brick.isCollided === true) {
@@ -330,18 +334,34 @@ export default class PlayerSprite extends Phaser.Physics.Arcade.Sprite {
                     brick.anims.play("blockCollisioned_anim")
                 },
             })
-            let mushroom = new Mushroom({
-                scene: this.scene,
-                x: brick.x + 8,
-                y: brick.y + 8 - 16,
-            })
-            this.scene.mushroomGroup.add(mushroom)
-            mushroom.collidingBricks()
+            let mushroomOrFlower
+            if (this.currentModeIndex >= 2) {
+                mushroomOrFlower   = new Flower({
+                    scene: this.scene,
+                    x: brick.x + 8,
+                    y: brick.y + 8 - 16,
+                })
+            } else {
+                mushroomOrFlower   = new Mushroom({
+                    scene: this.scene,
+                    x: brick.x + 8,
+                    y: brick.y + 8 - 16,
+                })
+            }
+
+            this.scene.mushroomOrFlowerGroup.add(mushroomOrFlower)
+            mushroomOrFlower.collidingBricks()
 
         }
     }
 
+    //  被 enemy 碰死  TODO 重复判定导致多次降级,直接死亡
+    collidingWithEnemyGroup(){
 
+        if (this.alive) {
+            this.changeMode("downgrade")
+        }
+    }
     // player 死亡
     die() {
 
@@ -381,8 +401,12 @@ export default class PlayerSprite extends Phaser.Physics.Arcade.Sprite {
             timeline.play()
             // 死亡动画   END
         }
-
-
     }
+    fallInDeadZone() {
+        if (this.alive) {
+            this.changeMode("die")
+        }
+    }
+
 
 }

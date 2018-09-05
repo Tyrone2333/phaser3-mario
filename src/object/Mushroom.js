@@ -20,12 +20,6 @@ export default class Mushroom extends Phaser.Physics.Arcade.Sprite {
 
     update() {
 
-        if (this.alive) {
-            if (this.life <= 0) {
-                this.alive = false
-                this.dieSetting()
-                return false
-            }
             // 先转向
             // if(this.body.blocked.right || this.body.blocked.left){
             if (this.body.onWall()) {
@@ -33,10 +27,10 @@ export default class Mushroom extends Phaser.Physics.Arcade.Sprite {
             }
             // 后移动,否则会鬼畜
             this.body.velocity.x = this.direction *this.speed
-        }
+
     }
 
-    // 从砖块里顶出来
+    // 蘑菇从砖块里顶出来
     collidingBricks() {
         this.scene.tweens.add({
             targets: [this],
