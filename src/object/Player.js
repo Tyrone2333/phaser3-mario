@@ -442,4 +442,5 @@ export default class PlayerSprite extends Phaser.Physics.Arcade.Sprite {
             this.ability.immune = false
         }, duration)
     }
+
 }

@@ -118,16 +118,11 @@ export default class tileMapScene extends Phaser.Scene {
         this.initRegister()
         this.createAnims()
 
-        // 带 object 的 mario 地图
-        this.map = this.add.tilemap('level1')
-        let tileset_level1 = this.map.addTilesetImage('tileset_levels')
-        this.graphicLayer = this.map.createDynamicLayer('Graphic_Layer', tileset_level1, 0, 0)
-        // this.graphicLayer = this.map.createStaticLayer('Graphic_Layer', tileset_level1, 0, 0)
-        this.pipesAccessLevelLayer = this.map.createDynamicLayer('PipesAccessLevel', tileset_level1, 0, 0)
-        this.pipesAccessLayer = this.map.createDynamicLayer('PipesAccess', tileset_level1, 0, 0)
-        this.exitPipesLayer = this.map.createDynamicLayer('ExitPipes', tileset_level1, 0, 0)
-        this.finishLevelLayer = this.map.createDynamicLayer('FinishLevel', tileset_level1, 0, 0)
+        this.createLayer()
 
+        //  世界的边界,不设置的话边界等于 game config 里的宽高
+        this.physics.world.bounds.width = this.graphicLayer.width
+        this.physics.world.bounds.height = this.graphicLayer.height
 
         // // 旧 Mario 地图
         // // 在(5,0),宽高为1的位置将tile 半透明(可用于设置暗门)
@@ -149,7 +144,7 @@ export default class tileMapScene extends Phaser.Scene {
             this.showDebug = !this.showDebug
             this.drawDebug()
 
-            this.player. enentEmitter.emit('getDamage',999);
+            this.player.enentEmitter.emit('getDamage', 999);
 
             this.player.changeMode("downgrade")
             // this.player.changeMode("upgrade")
@@ -164,7 +159,7 @@ export default class tileMapScene extends Phaser.Scene {
         // new player
         this.player = new PlayerSprite({
             scene: this,
-            x: 375, y: 120,
+            x: 50, y: 175,{}
         }, this.gameConfig.player)
 
 
@@ -251,6 +246,19 @@ export default class tileMapScene extends Phaser.Scene {
 
     }
 
+    createLayer() {
+        // 带 object 的 mario 地图
+        this.map = this.add.tilemap('level1')
+        let tileset_level1 = this.map.addTilesetImage('tileset_levels')
+        this.graphicLayer = this.map.createDynamicLayer('Graphic_Layer', tileset_level1, 0, 0)
+        // this.graphicLayer = this.map.createStaticLayer('Graphic_Layer', tileset_level1, 0, 0)
+        this.pipesAccessLevelLayer = this.map.createDynamicLayer('PipesAccessLevel', tileset_level1, 0, 0)
+        this.pipesAccessLayer = this.map.createDynamicLayer('PipesAccess', tileset_level1, 0, 0)
+        this.exitPipesLayer = this.map.createDynamicLayer('ExitPipes', tileset_level1, 0, 0)
+        this.finishLevelLayer = this.map.createDynamicLayer('FinishLevel', tileset_level1, 0, 0)
+    }
+
+    // 为 graphicLayer 绘制颜色
     drawDebug() {
         this.debugGraphics.clear()
         if (this.showDebug) {
@@ -266,12 +274,14 @@ export default class tileMapScene extends Phaser.Scene {
         this.events.emit('drawDebugEvent', 1, 2)
     }
 
+    //  一些 HUD 文本
     updateText() {
         this.scoreText.setText("score :" + this.score)
         this.debugText.pointPosition.setText("指针:" + ~~this.crosshair.x + "," + ~~this.crosshair.y)
         this.debugText.playerLife.setText("生命:" + this.player.life)
     }
 
+    // 创建动画
     createAnims() {
         this.anims.create({
             key: "randomBox_anim",
@@ -350,8 +360,8 @@ export default class tileMapScene extends Phaser.Scene {
 
     }
 
+    //  生成各种组(动态 sprite )
     createGroupFromObjects() {
-        //  生成各种组(动态 sprite )
         this.playerAttackGroup = this.add.group(null)
         this.playerAttackGroup.runChildUpdate = true
         this.enemiesGroup = this.add.group(null)
@@ -449,6 +459,7 @@ export default class tileMapScene extends Phaser.Scene {
 
     }
 
+    // 为 createGroupFromObjects() 服务
     objectsAddToGroup(objs, anim, group) {
         objs.forEach((val, idx) => {
             val.setOrigin(0)
@@ -464,6 +475,7 @@ export default class tileMapScene extends Phaser.Scene {
         })
     }
 
+    // 创建碰撞
     createCollision() {
         this.graphicLayer.setCollision([1, 34, 67, 69, 265, 266, 267, 268, 269, 298, 299, 300, 301, 301, 302])
         this.pipesAccessLayer.setCollision([265, 266])
@@ -559,7 +571,7 @@ export default class tileMapScene extends Phaser.Scene {
         })
     }
 
-
+    // 结束
     end(type) {
         if (type === 'restart') {
             this.scene.restart()
@@ -587,11 +599,13 @@ export default class tileMapScene extends Phaser.Scene {
         }
     }
 
+    // registry 类似全局变量
     initRegister() {
         this.registry.set('coins_max', "coins_max")
         // this.registry.get('coins_max')
     }
 
+    // 重启游戏(当前scene)
     restartGame() {
         // 重启需要使用的参数,场景 player 等
         let restartConfig = {
