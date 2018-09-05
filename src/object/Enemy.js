@@ -16,13 +16,14 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         this.scene.physics.add.collider(this, this.scene.graphicLayer, () => {
         })
 
+        this.type = "enemy"
 
     }
 
     update() {
 
         // 在视野之外,停止运动
-        if(Math.abs(  this.x - this.scene.player.x ) >= 450){
+        if (Math.abs(this.x - this.scene.player.x) >= 450) {
             return
         }
 
@@ -38,7 +39,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
                 this.direction *= -1
             }
             // 后移动,否则会鬼畜
-            this.body.velocity.x = this.direction *this.speed
+            this.body.velocity.x = this.direction * this.speed
         }
     }
 

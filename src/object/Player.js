@@ -7,10 +7,11 @@ export default class PlayerSprite extends Phaser.Physics.Arcade.Sprite {
     constructor(config, gameConfig) {
         super(config.scene, config.x, config.y, "small_mario")
 
-        config.scene.physics.world.enable(this)
         this.scene = config.scene
         this.scene.add.existing(this)// 没这个就无法显示在scene
         this.scene.physics.world.enable(this)
+
+        this.setCollideWorldBounds(true) // 世界碰撞
 
         this.bigMode = false    // 改变大小需使用 changeMode(mode)
         this.fireMode = false   // 火 mario
@@ -23,8 +24,16 @@ export default class PlayerSprite extends Phaser.Physics.Arcade.Sprite {
         this.ability = {
             fireball: false,   // 丢火球
             invincible: false, // 无敌(吃星星)
+            immune: false,  // 免疫伤害,被伤害后会触发一段时间免疫
         }
-        this.currentModeIndex = 1
+        this.timeManage = {
+            nowTime: 0,
+            startInvincible: 0,     // 开始无敌的时间
+            overInvincible: 0,     // 结束无敌的时间
+        }
+
+
+        this.currentModeIndex = 1   // 模式索引值,对应 [DIE_MODE, SMALL_MODE, BIG_MODE, FIRE_MODE]
 
         this.dieAnimPlaying = false
 
@@ -33,9 +42,18 @@ export default class PlayerSprite extends Phaser.Physics.Arcade.Sprite {
         // 添加控制按键
         this.creatControls()
 
+
+        this.enentEmitter = new Phaser.Events.EventEmitter();
+
+        //  监听事件
+        this.enentEmitter.on('getDamage', this.getDamageHandler, this);
+
+
     }
 
     update(time, delta) {
+        this.timeManage.nowTime = time
+
         if (this.alive) {
             // 控制移动
             this.isJumping = this.body.blocked.none && this.body.velocity !== 0
@@ -135,7 +153,7 @@ export default class PlayerSprite extends Phaser.Physics.Arcade.Sprite {
             this.currentModeIndex = this.currentModeIndex < MODE_ARR.length - 1 ? ++this.currentModeIndex : this.currentModeIndex
         } else if (condition === "downgrade") {
             this.currentModeIndex = this.currentModeIndex > 0 ? --this.currentModeIndex : 0
-        } else if (condition === "die"){
+        } else if (condition === "die") {
             this.currentModeIndex = 0
         }
 
@@ -309,7 +327,6 @@ export default class PlayerSprite extends Phaser.Physics.Arcade.Sprite {
                     },
                 })
             }
-
         }
     }
 
@@ -336,13 +353,13 @@ export default class PlayerSprite extends Phaser.Physics.Arcade.Sprite {
             })
             let mushroomOrFlower
             if (this.currentModeIndex >= 2) {
-                mushroomOrFlower   = new Flower({
+                mushroomOrFlower = new Flower({
                     scene: this.scene,
                     x: brick.x + 8,
                     y: brick.y + 8 - 16,
                 })
             } else {
-                mushroomOrFlower   = new Mushroom({
+                mushroomOrFlower = new Mushroom({
                     scene: this.scene,
                     x: brick.x + 8,
                     y: brick.y + 8 - 16,
@@ -355,13 +372,7 @@ export default class PlayerSprite extends Phaser.Physics.Arcade.Sprite {
         }
     }
 
-    //  被 enemy 碰死  TODO 重复判定导致多次降级,直接死亡
-    collidingWithEnemyGroup(){
 
-        if (this.alive) {
-            this.changeMode("downgrade")
-        }
-    }
     // player 死亡
     die() {
 
@@ -402,11 +413,33 @@ export default class PlayerSprite extends Phaser.Physics.Arcade.Sprite {
             // 死亡动画   END
         }
     }
-    fallInDeadZone() {
-        if (this.alive) {
+
+    getDamageHandler(from) {
+        if (!this.alive) return
+        // 掉坑
+        if (from.type === "deadZone") {
             this.changeMode("die")
         }
+        // 被 eneny 碰到
+        else if (from.type === "enemy") {
+            if (this.ability.invincible) {
+                // 无敌
+
+            } else if (this.ability.immune) {
+                // 免疫
+            } else {
+                this.changeMode("downgrade")
+                this.setImmune(1000)    // 降级之后给一定的免疫时间
+            }
+        }
+
     }
 
-
+    // 用于设置一定时长的免疫,毫秒
+    setImmune(duration) {
+        this.ability.immune = true
+        setTimeout(() => {
+            this.ability.immune = false
+        }, duration)
+    }
 }

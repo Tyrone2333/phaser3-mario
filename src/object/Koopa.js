@@ -5,6 +5,7 @@ export default class Koopa extends Enemy {
     constructor(scene, x, y, texture) {
         super(scene, x, y, texture)
 
+
         this.anims.play("koopaWalk_anim")
 
         this.isSquished = false // 是否缩壳
@@ -112,10 +113,11 @@ export default class Koopa extends Enemy {
         // 不是踩死,普通碰撞
         else {
             if (this.alive && !this.isSquished){
-                this.scene.player.collidingWithEnemyGroup()
+                this.scene.player.enentEmitter.emit('getDamage', this);
             }
             if( this.isSquishFly){
-                this.scene.player.collidingWithEnemyGroup()
+                this.scene.player.enentEmitter.emit('getDamage', this);
+
             }
         }
     }

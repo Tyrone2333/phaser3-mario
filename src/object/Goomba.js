@@ -20,7 +20,8 @@ export default class Goomba extends Enemy {
         }
         // 不是踩死,普通碰撞
         else {
-            if (this.alive) this.scene.player.collidingWithEnemyGroup()
+            if (this.alive)
+                this.scene.player.enentEmitter.emit('getDamage', this);
         }
     }
 

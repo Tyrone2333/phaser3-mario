@@ -5,6 +5,9 @@ import Koopa from "../object/Koopa"
 import Coin from "../object/Coin"
 import Mushroom from "../object/Mushroom"
 import Flower from "../object/Flower"
+import Brick from "../object/Brick"
+
+
 import Test from "../object/test"
 
 export default class tileMapScene extends Phaser.Scene {
@@ -146,6 +149,7 @@ export default class tileMapScene extends Phaser.Scene {
             this.showDebug = !this.showDebug
             this.drawDebug()
 
+            this.player. enentEmitter.emit('getDamage',999);
 
             this.player.changeMode("downgrade")
             // this.player.changeMode("upgrade")
@@ -160,10 +164,8 @@ export default class tileMapScene extends Phaser.Scene {
         // new player
         this.player = new PlayerSprite({
             scene: this,
-            x: 50, y: 175,
+            x: 375, y: 120,
         }, this.gameConfig.player)
-
-        this.player.setCollideWorldBounds(true) // 世界碰撞
 
 
         // camera 相关
@@ -223,7 +225,6 @@ export default class tileMapScene extends Phaser.Scene {
 
             log("this.events.on('drawDebugEvent') 参数: " + arguments[0])
         }, this)
-
 
         //create crosshair(十字准线) which is controlled by player class
         this.crosshair = this.add.image(0, 0, 'atlas', 'crosshair')
@@ -350,7 +351,7 @@ export default class tileMapScene extends Phaser.Scene {
     }
 
     createGroupFromObjects() {
-        //create attack group to hold player's fireballs
+        //  生成各种组(动态 sprite )
         this.playerAttackGroup = this.add.group(null)
         this.playerAttackGroup.runChildUpdate = true
         this.enemiesGroup = this.add.group(null)
@@ -362,10 +363,29 @@ export default class tileMapScene extends Phaser.Scene {
         this.flowerGroup = this.add.group(null)
         this.flowerGroup.runChildUpdate = true
 
+
         // 砖块
         let bricksObjects = this.map.createFromObjects('Bricks', "bricks", {key: 'bricks'})
+        // this.bricksGroup = this.add.group()
         this.bricksGroup = this.physics.add.staticGroup()
+        this.bricksGroup.runChildUpdate = true
         this.objectsAddToGroup(bricksObjects, 'brick_anim', this.bricksGroup)
+
+
+        // 各种尝试无法将 Brick 封装成一类
+        // this.map.getObjectLayer('Bricks').objects.forEach((obj) => {
+        //     let brick = new Brick(
+        //         this,
+        //         obj.x + 8,
+        //         obj.y + 8,
+        //         "brick"
+        //     )
+        //
+        //     // this.bricksGroup.create(  obj.x + 8,
+        //     //     obj.y + 8,
+        //     //     "brick");
+        // })
+
 
         // 生成敌人 Goombas
         this.map.getObjectLayer('Goombas').objects.forEach((obj) => {
@@ -373,7 +393,7 @@ export default class tileMapScene extends Phaser.Scene {
                 this,
                 obj.x + 8,
                 obj.y + 8,
-                "brick"
+                "goomba_red"
             )
             this.enemiesGroup.add(goomba)
         })
@@ -402,8 +422,10 @@ export default class tileMapScene extends Phaser.Scene {
             val.y = val.y + (val.height / 2)
             val.setScale(1)
             val.alpha = 0   // 设置为透明
+            val.type = "deadZone"
             this.deadZoneGroup.add(val)
         })
+
 
         // 砖里有金币为 bricksCoin 有多个金币为 BricksCoins
         this.bricksCoinGroup = this.physics.add.staticGroup()
@@ -486,7 +508,6 @@ export default class tileMapScene extends Phaser.Scene {
             }
         })
 
-
         //  捡金币
         this.physics.add.collider(this.player, this.coinsGroup, (player, coin) => {
             coin.collidingWithPlayer()
@@ -518,7 +539,8 @@ export default class tileMapScene extends Phaser.Scene {
 
         // player 掉坑里
         this.physics.add.collider(this.player, this.deadZoneGroup, (player, deadZone) => {
-            player.fallInDeadZone()
+            player.enentEmitter.emit('getDamage', deadZone);
+
         })
         // enemy 掉坑里
         this.physics.add.overlap(this.enemiesGroup, this.deadZoneGroup, (enemy, deadZone) => {

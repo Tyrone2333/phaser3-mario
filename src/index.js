@@ -1,4 +1,4 @@
-// import 'phaser';
+
 import Phaser from "phaser"
 import GameScene from './scene/GameScene'
 import LoadingScene from "./scene/loadingScene"
@@ -12,9 +12,11 @@ const config = {
     pixelArt: true,
     roundPixels: true,
     parent: 'phaser-example',
-    title: 'tileMap test',
-    width: 750,
-    height: 224,
+    title: 'Phaser3 Mario',
+    // width: 750,
+    // height: 224,
+    width: 3840,
+    height: 624,
 
     level1Width:3840,
     level1Height:624,
