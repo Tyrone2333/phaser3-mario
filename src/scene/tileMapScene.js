@@ -45,17 +45,8 @@ export default class tileMapScene extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('sky', 'resource/image/sky.png')
-
         // link sprite
         this.load.spritesheet("link", 'resource/image/link.png', {frameWidth: 32, frameHeight: 32})
-
-        //  Mario 地图
-        this.load.tilemapTiledJSON('map1', 'resource/tilemap/super-mario.json')
-        this.load.image('tiles1', 'resource/image/super-mario.png')
-
-        this.load.tilemapTiledJSON('map3', 'resource/tilemap/super-mario-3.json')
-        this.load.image('tiles3', 'resource/image/super-mario-3.png')
 
         // 带 object 的 mario 地图
         this.load.tilemapTiledJSON({key: 'level1', url: 'resource/tilemap/level1.json'})
@@ -80,11 +71,6 @@ export default class tileMapScene extends Phaser.Scene {
         this.load.spritesheet('mushroom', 'resource/img/Items/mushroom.png', {frameWidth: 16, frameHeight: 16})
         this.load.spritesheet('flower', 'resource/img/Items/flower.png', {frameWidth: 16, frameHeight: 16})
         this.load.image('tileset_levels', 'resource/tilemap/tileset_levels.png')
-
-        //  自己制作的tilemap
-        this.load.tilemapTiledJSON({key: 'test_tilemap', url: 'resource/tilemap/test_tilemap.json'})
-        this.load.tilemapTiledJSON({key: 'test_tilemap2', url: 'resource/tilemap/test_tilemap_2.json'})
-        this.load.image("enemies_tileset", "resource/tilemap/EnemiesGeneral.png")
 
         // 生物等
         this.load.image("sheet_tileset", "resource/image/sheet_tileset.png")
@@ -111,7 +97,6 @@ export default class tileMapScene extends Phaser.Scene {
     }
 
     create() {
-        // this.add.image(0, 0, 'sky').setOrigin(0, 0)
         // 一些参数
         this.score = this.gameConfig.scene.score
 
@@ -144,7 +129,6 @@ export default class tileMapScene extends Phaser.Scene {
             this.showDebug = !this.showDebug
             this.drawDebug()
 
-            this.player.enentEmitter.emit('getDamage', 999);
 
             this.player.changeMode("downgrade")
             // this.player.changeMode("upgrade")
@@ -159,7 +143,7 @@ export default class tileMapScene extends Phaser.Scene {
         // new player
         this.player = new PlayerSprite({
             scene: this,
-            x: 50, y: 175,{}
+            x: 50, y: 175,
         }, this.gameConfig.player)
 
 
@@ -222,7 +206,16 @@ export default class tileMapScene extends Phaser.Scene {
         }, this)
 
         //create crosshair(十字准线) which is controlled by player class
-        this.crosshair = this.add.image(0, 0, 'atlas', 'crosshair')
+        // this.crosshair = {
+        //     x: 0,
+        //     y: 0,
+        //     setPosition: function (x, y) {
+        //         this.x = x
+        //         this.y = y
+        //     }
+        // }
+        this.crosshair = this.add.sprite(0,0,"crosshair").setAlpha(0)
+
         //刷新 crosshair 的位置
         this.input.on('pointermove', (mouse) => {
             this.crosshair.setPosition(mouse.x + this.cameras.main.scrollX, mouse.y + this.cameras.main.scrollY)

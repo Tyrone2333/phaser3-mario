@@ -1,6 +1,6 @@
 export default class Fireball extends Phaser.GameObjects.Sprite {
     constructor(config) {
-        super(config.scene, config.x, config.y, 'atlas', 'fireball')
+        super(config.scene, config.x, config.y,"sheet_tileset")
         config.scene.physics.world.enable(this)
         this.scene = config.scene
         this.damage = 1
