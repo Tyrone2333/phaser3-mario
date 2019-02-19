@@ -5,7 +5,7 @@ import Flower from "./Flower"
 
 export default class PlayerSprite extends Phaser.Physics.Arcade.Sprite {
     constructor(config, gameConfig) {
-        super(config.scene, config.x, config.y, "small_mario")
+        super(config.scene, config.x, config.y, "initTexture")
 
         this.scene = config.scene
         this.scene.add.existing(this)// 没这个就无法显示在scene
@@ -127,23 +127,27 @@ export default class PlayerSprite extends Phaser.Physics.Arcade.Sprite {
             this.ability.fireball = false
             this.ability.invincible = false
             // this.setTexture("big_mario",this.anims.currentFrame.index)
-            this.setTexture("small_mario", this.frame.name)    // 替换内容和当前 frame 动作相同
+            console.log(this.scene)
+            // this.setTexture("atalas", this.frame.name)    // 替换内容和当前 frame 动作相同
             this.setSize(16, 16)
-            this.originY = 0.5 // 此游戏对象的垂直原点
+            this.originY = 0 // 此游戏对象的垂直原点
         }
         const BIG_MODE = () => {
             this.bigMode = true
             this.ability.fireball = false
             this.ability.invincible = false
             // this.setTexture("big_mario",this.anims.currentFrame.index)
-            this.setTexture("big_mario", this.frame.name)    // 替换内容和当前 frame 动作相同
+            // this.setTexture("big_mario", this.frame.name)    // 替换内容和当前 frame 动作相同
             this.setSize(16, 32)
             this.y -= 16
-            this.originY = 0.25 // 此游戏对象的垂直原点
+            this.originY = 0.5 // 此游戏对象的垂直原点
         }
         const FIRE_MODE = () => {
             this.bigMode = true
             this.ability.fireball = true
+            this.setSize(16, 32)
+            this.y -= 16
+            this.originY = 0.25 // 此游戏对象的垂直原点
         }
         //  模式只能按序升降级
         const MODE_ARR = [DIE_MODE, SMALL_MODE, BIG_MODE, FIRE_MODE]
@@ -161,44 +165,8 @@ export default class PlayerSprite extends Phaser.Physics.Arcade.Sprite {
         MODE_ARR[this.currentModeIndex]()
     }
 
+
     creatAnims() {
-        // player 动画
-        this.scene.anims.create({
-            key: "left_anim",
-            frames: this.scene.anims.generateFrameNumbers("small_mario", {start: 8, end: 10}),
-            frameRate: 8,
-            repeat: -1
-        })
-        this.scene.anims.create({
-            key: "right_anim",
-            frames: this.scene.anims.generateFrameNumbers("small_mario", {start: 2, end: 4}),
-            frameRate: 8,
-            repeat: -1
-        })
-        this.scene.anims.create({
-            key: "faceRight_anim",
-            frames: this.scene.anims.generateFrameNumbers("small_mario", {start: 1, end: 1}),
-            frameRate: 1,
-            repeat: 1
-        })
-        this.scene.anims.create({
-            key: "faceLeft_anim",
-            frames: this.scene.anims.generateFrameNumbers("small_mario", {start: 11, end: 11}),
-            frameRate: 1,
-            repeat: 1
-        })
-        this.scene.anims.create({
-            key: "jumpRight_anim",
-            frames: this.scene.anims.generateFrameNumbers("small_mario", {start: 5, end: 5}),
-            frameRate: 1,
-            repeat: 1
-        })
-        this.scene.anims.create({
-            key: "jumpLeft_anim",
-            frames: this.scene.anims.generateFrameNumbers("small_mario", {start: 7, end: 7}),
-            frameRate: 1,
-            repeat: 1
-        })
 
         this.scene.anims.create({
             key: "bigRight_anim",
@@ -233,12 +201,6 @@ export default class PlayerSprite extends Phaser.Physics.Arcade.Sprite {
         this.scene.anims.create({
             key: "bigJumpLeft_anim",
             frames: this.scene.anims.generateFrameNumbers("big_mario", {start: 7, end: 7}),
-            frameRate: 1,
-            repeat: 1
-        })
-        this.scene.anims.create({
-            key: "die_anim",
-            frames: this.scene.anims.generateFrameNumbers("small_mario", {start: 6, end: 6}),
             frameRate: 1,
             repeat: 1
         })

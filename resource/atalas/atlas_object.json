@@ -1,0 +1,2246 @@
+{
+	"textures": [
+		{
+			"image": "atlas_object-0.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 941,
+				"h": 128
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "UI/Menu/title",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 257,
+						"h": 318
+					},
+					"spriteSourceSize": {
+						"x": 39,
+						"y": 68,
+						"w": 178,
+						"h": 92
+					},
+					"frame": {
+						"x": 2,
+						"y": 2,
+						"w": 178,
+						"h": 92
+					}
+				},
+				{
+					"filename": "Player/Mario_Fire/mario fire swim",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 112,
+						"h": 30
+					},
+					"spriteSourceSize": {
+						"x": 11,
+						"y": 0,
+						"w": 92,
+						"h": 30
+					},
+					"frame": {
+						"x": 2,
+						"y": 96,
+						"w": 92,
+						"h": 30
+					}
+				},
+				{
+					"filename": "Player/Mario_Big/mario big swim impulse",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 16,
+						"h": 30
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 16,
+						"h": 30
+					},
+					"frame": {
+						"x": 96,
+						"y": 96,
+						"w": 16,
+						"h": 30
+					}
+				},
+				{
+					"filename": "Player/Mario_Fire/mario fire attack",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 16,
+						"h": 30
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 16,
+						"h": 30
+					},
+					"frame": {
+						"x": 114,
+						"y": 96,
+						"w": 16,
+						"h": 30
+					}
+				},
+				{
+					"filename": "Player/Mario_Fire/mario fire swim impulse",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 16,
+						"h": 30
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 16,
+						"h": 30
+					},
+					"frame": {
+						"x": 132,
+						"y": 96,
+						"w": 16,
+						"h": 30
+					}
+				},
+				{
+					"filename": "Player/Mario_Big/mario big swim jump",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 15,
+						"h": 30
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 15,
+						"h": 30
+					},
+					"frame": {
+						"x": 150,
+						"y": 96,
+						"w": 15,
+						"h": 30
+					}
+				},
+				{
+					"filename": "Player/Mario_Fire/mario fire swim jump",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 14,
+						"h": 30
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 14,
+						"h": 30
+					},
+					"frame": {
+						"x": 167,
+						"y": 96,
+						"w": 14,
+						"h": 30
+					}
+				},
+				{
+					"filename": "Player/Mario_Fire/fire_mario",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 368,
+						"h": 32
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 368,
+						"h": 32
+					},
+					"frame": {
+						"x": 182,
+						"y": 2,
+						"w": 368,
+						"h": 32
+					}
+				},
+				{
+					"filename": "Player/Mario_Big/big_mario",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 208,
+						"h": 32
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 208,
+						"h": 32
+					},
+					"frame": {
+						"x": 182,
+						"y": 36,
+						"w": 208,
+						"h": 32
+					}
+				},
+				{
+					"filename": "Enemies/Koopa/koopa green",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 46,
+						"h": 24
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 46,
+						"h": 24
+					},
+					"frame": {
+						"x": 182,
+						"y": 70,
+						"w": 46,
+						"h": 24
+					}
+				},
+				{
+					"filename": "Player/Mario_Big/mario big swim idle",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 16,
+						"h": 29
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 16,
+						"h": 29
+					},
+					"frame": {
+						"x": 183,
+						"y": 96,
+						"w": 16,
+						"h": 29
+					}
+				},
+				{
+					"filename": "Player/Mario_Fire/mario fire swim idle",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 16,
+						"h": 29
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 16,
+						"h": 29
+					},
+					"frame": {
+						"x": 201,
+						"y": 96,
+						"w": 16,
+						"h": 29
+					}
+				},
+				{
+					"filename": "Player/Mario_Big/mario big swim drift",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 14,
+						"h": 27
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 14,
+						"h": 27
+					},
+					"frame": {
+						"x": 219,
+						"y": 96,
+						"w": 14,
+						"h": 27
+					}
+				},
+				{
+					"filename": "Enemies/Koopa/koopa_blue",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 32,
+						"h": 24
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 32,
+						"h": 24
+					},
+					"frame": {
+						"x": 230,
+						"y": 70,
+						"w": 32,
+						"h": 24
+					}
+				},
+				{
+					"filename": "Player/Mario_Fire/mario fire swim drift",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 14,
+						"h": 27
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 14,
+						"h": 27
+					},
+					"frame": {
+						"x": 235,
+						"y": 96,
+						"w": 14,
+						"h": 27
+					}
+				},
+				{
+					"filename": "Items/text",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 96,
+						"h": 32
+					},
+					"spriteSourceSize": {
+						"x": 2,
+						"y": 3,
+						"w": 93,
+						"h": 26
+					},
+					"frame": {
+						"x": 251,
+						"y": 96,
+						"w": 93,
+						"h": 26
+					}
+				},
+				{
+					"filename": "Enemies/Koopa/koopa_green",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 32,
+						"h": 24
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 32,
+						"h": 24
+					},
+					"frame": {
+						"x": 264,
+						"y": 70,
+						"w": 32,
+						"h": 24
+					}
+				},
+				{
+					"filename": "Enemies/Piranya/piranya_blue",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 32,
+						"h": 24
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 32,
+						"h": 24
+					},
+					"frame": {
+						"x": 298,
+						"y": 70,
+						"w": 32,
+						"h": 24
+					}
+				},
+				{
+					"filename": "Enemies/Piranya/piranya_green",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 32,
+						"h": 24
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 32,
+						"h": 24
+					},
+					"frame": {
+						"x": 332,
+						"y": 70,
+						"w": 32,
+						"h": 24
+					}
+				},
+				{
+					"filename": "Items/princess",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 16,
+						"h": 24
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 16,
+						"h": 24
+					},
+					"frame": {
+						"x": 346,
+						"y": 96,
+						"w": 16,
+						"h": 24
+					}
+				},
+				{
+					"filename": "Player/Mario_Big/mario big crouch",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 16,
+						"h": 22
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 16,
+						"h": 22
+					},
+					"frame": {
+						"x": 364,
+						"y": 96,
+						"w": 16,
+						"h": 22
+					}
+				},
+				{
+					"filename": "Player/Mario_Fire/mario fire crouch",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 16,
+						"h": 22
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 16,
+						"h": 22
+					},
+					"frame": {
+						"x": 366,
+						"y": 70,
+						"w": 16,
+						"h": 22
+					}
+				},
+				{
+					"filename": "Player/Mario_Fire/fire_mario_attack",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 160,
+						"h": 32
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 160,
+						"h": 32
+					},
+					"frame": {
+						"x": 382,
+						"y": 94,
+						"w": 160,
+						"h": 32
+					}
+				},
+				{
+					"filename": "Levels/block",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 18,
+						"h": 18
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 18,
+						"h": 18
+					},
+					"frame": {
+						"x": 384,
+						"y": 70,
+						"w": 18,
+						"h": 18
+					}
+				},
+				{
+					"filename": "Enemies/Bowser/bowser",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 128,
+						"h": 32
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 128,
+						"h": 32
+					},
+					"frame": {
+						"x": 392,
+						"y": 36,
+						"w": 128,
+						"h": 32
+					}
+				},
+				{
+					"filename": "Player/Mario_Small/mario small run",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 107,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 16,
+						"y": 0,
+						"w": 77,
+						"h": 16
+					},
+					"frame": {
+						"x": 404,
+						"y": 70,
+						"w": 77,
+						"h": 16
+					}
+				},
+				{
+					"filename": "Items/random box",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 76,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 76,
+						"h": 16
+					},
+					"frame": {
+						"x": 483,
+						"y": 70,
+						"w": 76,
+						"h": 16
+					}
+				},
+				{
+					"filename": "Player/Mario_Big/mario big run",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 104,
+						"h": 32
+					},
+					"spriteSourceSize": {
+						"x": 13,
+						"y": 0,
+						"w": 78,
+						"h": 32
+					},
+					"frame": {
+						"x": 522,
+						"y": 36,
+						"w": 78,
+						"h": 32
+					}
+				},
+				{
+					"filename": "Player/Mario_Fire/mario fire run",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 87,
+						"h": 32
+					},
+					"spriteSourceSize": {
+						"x": 11,
+						"y": 0,
+						"w": 68,
+						"h": 32
+					},
+					"frame": {
+						"x": 552,
+						"y": 2,
+						"w": 68,
+						"h": 32
+					}
+				},
+				{
+					"filename": "Player/Mario_Big/mario_big_finishLevel",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 64,
+						"h": 32
+					},
+					"spriteSourceSize": {
+						"x": 3,
+						"y": 0,
+						"w": 58,
+						"h": 32
+					},
+					"frame": {
+						"x": 544,
+						"y": 88,
+						"w": 58,
+						"h": 32
+					}
+				},
+				{
+					"filename": "Items/flower",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 64,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 64,
+						"h": 16
+					},
+					"frame": {
+						"x": 561,
+						"y": 70,
+						"w": 64,
+						"h": 16
+					}
+				},
+				{
+					"filename": "Player/Mario_Fire/mario_fire_finishLevel",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 64,
+						"h": 32
+					},
+					"spriteSourceSize": {
+						"x": 3,
+						"y": 0,
+						"w": 58,
+						"h": 32
+					},
+					"frame": {
+						"x": 602,
+						"y": 36,
+						"w": 58,
+						"h": 32
+					}
+				},
+				{
+					"filename": "Player/Mario_Big/mario big drift",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 16,
+						"h": 32
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 16,
+						"h": 32
+					},
+					"frame": {
+						"x": 622,
+						"y": 2,
+						"w": 16,
+						"h": 32
+					}
+				},
+				{
+					"filename": "Player/Mario_Big/mario big idle",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 16,
+						"h": 32
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 16,
+						"h": 32
+					},
+					"frame": {
+						"x": 640,
+						"y": 2,
+						"w": 16,
+						"h": 32
+					}
+				},
+				{
+					"filename": "Player/Mario_Big/mario big jump",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 16,
+						"h": 32
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 16,
+						"h": 32
+					},
+					"frame": {
+						"x": 658,
+						"y": 2,
+						"w": 16,
+						"h": 32
+					}
+				},
+				{
+					"filename": "Player/Mario_Fire/mario fire drift",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 16,
+						"h": 32
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 16,
+						"h": 32
+					},
+					"frame": {
+						"x": 604,
+						"y": 88,
+						"w": 16,
+						"h": 32
+					}
+				},
+				{
+					"filename": "Player/Mario_Fire/mario fire idle",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 16,
+						"h": 32
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 16,
+						"h": 32
+					},
+					"frame": {
+						"x": 622,
+						"y": 88,
+						"w": 16,
+						"h": 32
+					}
+				},
+				{
+					"filename": "Items/flower_2",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 64,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 64,
+						"h": 16
+					},
+					"frame": {
+						"x": 627,
+						"y": 70,
+						"w": 64,
+						"h": 16
+					}
+				},
+				{
+					"filename": "Player/Mario_Fire/mario fire jump",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 16,
+						"h": 32
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 16,
+						"h": 32
+					},
+					"frame": {
+						"x": 662,
+						"y": 36,
+						"w": 16,
+						"h": 32
+					}
+				},
+				{
+					"filename": "Player/Mario_Big/mario big swim",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 112,
+						"h": 31
+					},
+					"spriteSourceSize": {
+						"x": 11,
+						"y": 0,
+						"w": 92,
+						"h": 31
+					},
+					"frame": {
+						"x": 676,
+						"y": 2,
+						"w": 92,
+						"h": 31
+					}
+				},
+				{
+					"filename": "Items/flower_ifMarioIsFire",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 64,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 64,
+						"h": 16
+					},
+					"frame": {
+						"x": 680,
+						"y": 35,
+						"w": 64,
+						"h": 16
+					}
+				},
+				{
+					"filename": "Player/Mario_Small/mario small swim",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 106,
+						"h": 15
+					},
+					"spriteSourceSize": {
+						"x": 15,
+						"y": 0,
+						"w": 76,
+						"h": 15
+					},
+					"frame": {
+						"x": 680,
+						"y": 53,
+						"w": 76,
+						"h": 15
+					}
+				},
+				{
+					"filename": "Items/star",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 64,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 64,
+						"h": 16
+					},
+					"frame": {
+						"x": 746,
+						"y": 35,
+						"w": 64,
+						"h": 16
+					}
+				},
+				{
+					"filename": "Items/star_2",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 64,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 64,
+						"h": 16
+					},
+					"frame": {
+						"x": 770,
+						"y": 2,
+						"w": 64,
+						"h": 16
+					}
+				},
+				{
+					"filename": "Player/Mario_Fire/fireBall_01",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 16,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 3,
+						"y": 3,
+						"w": 10,
+						"h": 10
+					},
+					"frame": {
+						"x": 770,
+						"y": 20,
+						"w": 10,
+						"h": 10
+					}
+				},
+				{
+					"filename": "Player/Mario_Fire/fireBall_02",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 16,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 3,
+						"y": 3,
+						"w": 10,
+						"h": 10
+					},
+					"frame": {
+						"x": 782,
+						"y": 20,
+						"w": 10,
+						"h": 10
+					}
+				},
+				{
+					"filename": "Player/Mario_Fire/fireBall_03",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 16,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 3,
+						"y": 3,
+						"w": 10,
+						"h": 10
+					},
+					"frame": {
+						"x": 794,
+						"y": 20,
+						"w": 10,
+						"h": 10
+					}
+				},
+				{
+					"filename": "Player/Mario_Fire/fireBall_04",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 16,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 3,
+						"y": 3,
+						"w": 10,
+						"h": 10
+					},
+					"frame": {
+						"x": 806,
+						"y": 20,
+						"w": 10,
+						"h": 10
+					}
+				},
+				{
+					"filename": "Levels/questionMarkBlock",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 64,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 64,
+						"h": 16
+					},
+					"frame": {
+						"x": 640,
+						"y": 88,
+						"w": 64,
+						"h": 16
+					}
+				},
+				{
+					"filename": "Levels/questionMarkBlock_2",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 64,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 64,
+						"h": 16
+					},
+					"frame": {
+						"x": 693,
+						"y": 70,
+						"w": 64,
+						"h": 16
+					}
+				},
+				{
+					"filename": "Enemies/Koopa/koopa green squish",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 16,
+						"h": 15
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 16,
+						"h": 15
+					},
+					"frame": {
+						"x": 758,
+						"y": 53,
+						"w": 16,
+						"h": 15
+					}
+				},
+				{
+					"filename": "Player/Mario_Small/mario_small_finishLevel",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 64,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 1,
+						"y": 0,
+						"w": 62,
+						"h": 16
+					},
+					"frame": {
+						"x": 640,
+						"y": 106,
+						"w": 62,
+						"h": 16
+					}
+				},
+				{
+					"filename": "Items/coinBlock",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 64,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 5,
+						"y": 0,
+						"w": 53,
+						"h": 16
+					},
+					"frame": {
+						"x": 704,
+						"y": 106,
+						"w": 53,
+						"h": 16
+					}
+				},
+				{
+					"filename": "Enemies/Bowser/martilloBowser",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 48,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 48,
+						"h": 16
+					},
+					"frame": {
+						"x": 706,
+						"y": 88,
+						"w": 48,
+						"h": 16
+					}
+				},
+				{
+					"filename": "Enemies/Goomba/goomba_blue",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 48,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 48,
+						"h": 16
+					},
+					"frame": {
+						"x": 756,
+						"y": 88,
+						"w": 48,
+						"h": 16
+					}
+				},
+				{
+					"filename": "Enemies/Goomba/goomba_red",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 48,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 48,
+						"h": 16
+					},
+					"frame": {
+						"x": 759,
+						"y": 70,
+						"w": 48,
+						"h": 16
+					}
+				},
+				{
+					"filename": "Player/Mario_Small/small_mario_07",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 16,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 16,
+						"h": 15
+					},
+					"frame": {
+						"x": 776,
+						"y": 53,
+						"w": 16,
+						"h": 15
+					}
+				},
+				{
+					"filename": "Player/Mario_Small/mario small swim idle",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 15,
+						"h": 15
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 15,
+						"h": 15
+					},
+					"frame": {
+						"x": 794,
+						"y": 53,
+						"w": 15,
+						"h": 15
+					}
+				},
+				{
+					"filename": "Enemies/Goomba/goomba red",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 46,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 46,
+						"h": 16
+					},
+					"frame": {
+						"x": 759,
+						"y": 106,
+						"w": 46,
+						"h": 16
+					}
+				},
+				{
+					"filename": "Enemies/Koopa/koopa_blue_squish",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 32,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 32,
+						"h": 16
+					},
+					"frame": {
+						"x": 806,
+						"y": 88,
+						"w": 32,
+						"h": 16
+					}
+				},
+				{
+					"filename": "Enemies/Koopa/koopa_green_squish",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 32,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 32,
+						"h": 16
+					},
+					"frame": {
+						"x": 809,
+						"y": 70,
+						"w": 32,
+						"h": 16
+					}
+				},
+				{
+					"filename": "Player/Mario_Small/mario small swim drift",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 13,
+						"h": 15
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 13,
+						"h": 15
+					},
+					"frame": {
+						"x": 811,
+						"y": 53,
+						"w": 13,
+						"h": 15
+					}
+				},
+				{
+					"filename": "Levels/brickCoins",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 32,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 32,
+						"h": 16
+					},
+					"frame": {
+						"x": 812,
+						"y": 32,
+						"w": 32,
+						"h": 16
+					}
+				},
+				{
+					"filename": "Player/Mario_Fire/fireBall_05",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 16,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 3,
+						"y": 3,
+						"w": 10,
+						"h": 10
+					},
+					"frame": {
+						"x": 818,
+						"y": 20,
+						"w": 10,
+						"h": 10
+					}
+				},
+				{
+					"filename": "Enemies/Bowser/fuego",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 48,
+						"h": 8
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 48,
+						"h": 8
+					},
+					"frame": {
+						"x": 830,
+						"y": 20,
+						"w": 48,
+						"h": 8
+					}
+				},
+				{
+					"filename": "Levels/brickCoins_2",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 32,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 32,
+						"h": 16
+					},
+					"frame": {
+						"x": 836,
+						"y": 2,
+						"w": 32,
+						"h": 16
+					}
+				},
+				{
+					"filename": "Levels/brickStar_2",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 32,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 32,
+						"h": 16
+					},
+					"frame": {
+						"x": 836,
+						"y": 2,
+						"w": 32,
+						"h": 16
+					}
+				},
+				{
+					"filename": "Levels/invisibleBlock_2",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 32,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 32,
+						"h": 16
+					},
+					"frame": {
+						"x": 836,
+						"y": 2,
+						"w": 32,
+						"h": 16
+					}
+				},
+				{
+					"filename": "Levels/brickStar",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 32,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 32,
+						"h": 16
+					},
+					"frame": {
+						"x": 870,
+						"y": 2,
+						"w": 32,
+						"h": 16
+					}
+				},
+				{
+					"filename": "Levels/invisibleBlock",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 32,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 15,
+						"y": 0,
+						"w": 17,
+						"h": 16
+					},
+					"frame": {
+						"x": 826,
+						"y": 50,
+						"w": 17,
+						"h": 16
+					}
+				},
+				{
+					"filename": "Player/Mario_Small/mario small jump",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 17,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 17,
+						"h": 16
+					},
+					"frame": {
+						"x": 807,
+						"y": 106,
+						"w": 17,
+						"h": 16
+					}
+				},
+				{
+					"filename": "Items/1up_mushroom",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 16,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 16,
+						"h": 16
+					},
+					"frame": {
+						"x": 826,
+						"y": 106,
+						"w": 16,
+						"h": 16
+					}
+				},
+				{
+					"filename": "Items/1up_mushroom_2",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 16,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 16,
+						"h": 16
+					},
+					"frame": {
+						"x": 840,
+						"y": 88,
+						"w": 16,
+						"h": 16
+					}
+				},
+				{
+					"filename": "Items/mushroom",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 16,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 16,
+						"h": 16
+					},
+					"frame": {
+						"x": 843,
+						"y": 68,
+						"w": 16,
+						"h": 16
+					}
+				},
+				{
+					"filename": "Items/star_ifMarioIsFire",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 16,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 16,
+						"h": 16
+					},
+					"frame": {
+						"x": 845,
+						"y": 50,
+						"w": 16,
+						"h": 16
+					}
+				},
+				{
+					"filename": "Levels/blockCollisioned",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 16,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 16,
+						"h": 16
+					},
+					"frame": {
+						"x": 846,
+						"y": 30,
+						"w": 16,
+						"h": 16
+					}
+				},
+				{
+					"filename": "Levels/brick",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 16,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 16,
+						"h": 16
+					},
+					"frame": {
+						"x": 844,
+						"y": 106,
+						"w": 16,
+						"h": 16
+					}
+				},
+				{
+					"filename": "Levels/brick2",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 16,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 16,
+						"h": 16
+					},
+					"frame": {
+						"x": 858,
+						"y": 86,
+						"w": 16,
+						"h": 16
+					}
+				},
+				{
+					"filename": "Player/Mario_Fire/fireBall_07",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 16,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 16,
+						"h": 16
+					},
+					"frame": {
+						"x": 861,
+						"y": 68,
+						"w": 16,
+						"h": 16
+					}
+				},
+				{
+					"filename": "Player/Mario_Small/small_mario_05",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 16,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 16,
+						"h": 16
+					},
+					"frame": {
+						"x": 863,
+						"y": 48,
+						"w": 16,
+						"h": 16
+					}
+				},
+				{
+					"filename": "Player/Mario_Small/small_mario_06",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 16,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 16,
+						"h": 16
+					},
+					"frame": {
+						"x": 864,
+						"y": 30,
+						"w": 16,
+						"h": 16
+					}
+				},
+				{
+					"filename": "Levels/platform",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 48,
+						"h": 8
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 48,
+						"h": 8
+					},
+					"frame": {
+						"x": 880,
+						"y": 20,
+						"w": 48,
+						"h": 8
+					}
+				},
+				{
+					"filename": "Player/Mario_Small/small_mario_08",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 16,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 16,
+						"h": 16
+					},
+					"frame": {
+						"x": 904,
+						"y": 2,
+						"w": 16,
+						"h": 16
+					}
+				},
+				{
+					"filename": "Player/Mario_Small/small_mario_09",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 16,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 16,
+						"h": 16
+					},
+					"frame": {
+						"x": 922,
+						"y": 2,
+						"w": 16,
+						"h": 16
+					}
+				},
+				{
+					"filename": "UI/Menu/cursor",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 8,
+						"h": 8
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 8,
+						"h": 8
+					},
+					"frame": {
+						"x": 930,
+						"y": 20,
+						"w": 8,
+						"h": 8
+					}
+				},
+				{
+					"filename": "Player/Mario_Small/small_mario_03",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 16,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 1,
+						"y": 0,
+						"w": 15,
+						"h": 16
+					},
+					"frame": {
+						"x": 862,
+						"y": 104,
+						"w": 15,
+						"h": 16
+					}
+				},
+				{
+					"filename": "Player/Mario_Small/small_mario_11",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 16,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 15,
+						"h": 16
+					},
+					"frame": {
+						"x": 876,
+						"y": 86,
+						"w": 15,
+						"h": 16
+					}
+				},
+				{
+					"filename": "Levels/puente",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 14,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 14,
+						"h": 16
+					},
+					"frame": {
+						"x": 879,
+						"y": 66,
+						"w": 14,
+						"h": 16
+					}
+				},
+				{
+					"filename": "Player/Mario_Fire/fireBall_06",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 16,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 1,
+						"y": 0,
+						"w": 14,
+						"h": 16
+					},
+					"frame": {
+						"x": 881,
+						"y": 48,
+						"w": 14,
+						"h": 16
+					}
+				},
+				{
+					"filename": "Player/Mario_Small/mario small drift",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 14,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 14,
+						"h": 16
+					},
+					"frame": {
+						"x": 882,
+						"y": 30,
+						"w": 14,
+						"h": 16
+					}
+				},
+				{
+					"filename": "Player/Mario_Small/mario small swim jump",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 14,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 14,
+						"h": 16
+					},
+					"frame": {
+						"x": 879,
+						"y": 104,
+						"w": 14,
+						"h": 16
+					}
+				},
+				{
+					"filename": "Player/Mario_Small/small_mario_01",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 16,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 2,
+						"y": 0,
+						"w": 14,
+						"h": 16
+					},
+					"frame": {
+						"x": 893,
+						"y": 84,
+						"w": 14,
+						"h": 16
+					}
+				},
+				{
+					"filename": "Player/Mario_Small/small_mario_02",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 16,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 1,
+						"y": 0,
+						"w": 14,
+						"h": 16
+					},
+					"frame": {
+						"x": 895,
+						"y": 66,
+						"w": 14,
+						"h": 16
+					}
+				},
+				{
+					"filename": "Player/Mario_Small/small_mario_12",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 16,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 1,
+						"y": 0,
+						"w": 14,
+						"h": 16
+					},
+					"frame": {
+						"x": 897,
+						"y": 48,
+						"w": 14,
+						"h": 16
+					}
+				},
+				{
+					"filename": "Player/Mario_Small/small_mario_13",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 16,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 2,
+						"y": 0,
+						"w": 14,
+						"h": 16
+					},
+					"frame": {
+						"x": 898,
+						"y": 30,
+						"w": 14,
+						"h": 16
+					}
+				},
+				{
+					"filename": "Player/Mario_Small/mario small idle",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 13,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 13,
+						"h": 16
+					},
+					"frame": {
+						"x": 895,
+						"y": 102,
+						"w": 13,
+						"h": 16
+					}
+				},
+				{
+					"filename": "UI/Load/marioSmallIdle",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 13,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 13,
+						"h": 16
+					},
+					"frame": {
+						"x": 895,
+						"y": 102,
+						"w": 13,
+						"h": 16
+					}
+				},
+				{
+					"filename": "Player/Mario_Small/small_mario_04",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 16,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 2,
+						"y": 0,
+						"w": 13,
+						"h": 16
+					},
+					"frame": {
+						"x": 909,
+						"y": 84,
+						"w": 13,
+						"h": 16
+					}
+				},
+				{
+					"filename": "Player/Mario_Small/small_mario_10",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 16,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 1,
+						"y": 0,
+						"w": 13,
+						"h": 16
+					},
+					"frame": {
+						"x": 911,
+						"y": 66,
+						"w": 13,
+						"h": 16
+					}
+				},
+				{
+					"filename": "Items/coin",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 16,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 2,
+						"y": 0,
+						"w": 12,
+						"h": 16
+					},
+					"frame": {
+						"x": 913,
+						"y": 48,
+						"w": 12,
+						"h": 16
+					}
+				},
+				{
+					"filename": "Items/coin_2",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 16,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 2,
+						"y": 0,
+						"w": 12,
+						"h": 16
+					},
+					"frame": {
+						"x": 914,
+						"y": 30,
+						"w": 12,
+						"h": 16
+					}
+				},
+				{
+					"filename": "Player/Mario_Small/mario small die",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 15,
+						"h": 14
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 15,
+						"h": 14
+					},
+					"frame": {
+						"x": 924,
+						"y": 84,
+						"w": 15,
+						"h": 14
+					}
+				},
+				{
+					"filename": "UI/Load/coin1",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 18,
+						"h": 18
+					},
+					"spriteSourceSize": {
+						"x": 3,
+						"y": 2,
+						"w": 12,
+						"h": 16
+					},
+					"frame": {
+						"x": 926,
+						"y": 66,
+						"w": 12,
+						"h": 16
+					}
+				},
+				{
+					"filename": "UI/Load/coin2",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 18,
+						"h": 18
+					},
+					"spriteSourceSize": {
+						"x": 3,
+						"y": 2,
+						"w": 12,
+						"h": 16
+					},
+					"frame": {
+						"x": 927,
+						"y": 48,
+						"w": 12,
+						"h": 16
+					}
+				},
+				{
+					"filename": "Enemies/Koopa/koopa green squish 2",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 16,
+						"h": 14
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 16,
+						"h": 14
+					},
+					"frame": {
+						"x": 910,
+						"y": 102,
+						"w": 16,
+						"h": 14
+					}
+				},
+				{
+					"filename": "Enemies/Goomba/goomba red squish",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 16,
+						"h": 8
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 16,
+						"h": 8
+					},
+					"frame": {
+						"x": 910,
+						"y": 118,
+						"w": 16,
+						"h": 8
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "3.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:7930b46c2fcee4aac6eaebe0fd523305:ada762f5a40e06b4d103ddf2325c08c1:f52ea731a7f601f44f991ff3e77187a9$"
+	}
+}

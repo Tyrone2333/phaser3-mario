@@ -1,8 +1,11 @@
-
 import Phaser from "phaser"
-import GameScene from './scene/GameScene'
-import LoadingScene from "./scene/loadingScene"
 
+// 无关,二段跳的 demo
+import GameScene from './scene/GameScene'
+import LoadingScene from "./scene/LoadingScene"
+
+// 马里奥
+import preLoadScene from "./scene/preLoadScene"
 import tileMapScene from "./scene/tileMapScene"
 import gameOverScene from "./scene/gameOverScene"
 
@@ -29,7 +32,7 @@ const config = {
     scene: [
         // LoadingScene,
         // GameScene,
-
+        preLoadScene,
         tileMapScene,
         gameOverScene
     ]

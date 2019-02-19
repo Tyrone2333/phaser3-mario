@@ -44,57 +44,6 @@ export default class tileMapScene extends Phaser.Scene {
 
     }
 
-    preload() {
-        // link sprite
-        this.load.spritesheet("link", 'resource/image/link.png', {frameWidth: 32, frameHeight: 32})
-
-        // 带 object 的 mario 地图
-        this.load.tilemapTiledJSON({key: 'level1', url: 'resource/tilemap/level1.json'})
-        // 砖块等物体
-        this.load.spritesheet('brick', 'resource/img/Levels/brick.png', {frameWidth: 16, frameHeight: 16})
-        this.load.spritesheet('blockCollisioned', 'resource/img/Levels/blockCollisioned.png', {
-            frameWidth: 16,
-            frameHeight: 16
-        })
-        this.load.spritesheet('brick2', 'resource/img/Levels/brick2.png', {frameWidth: 16, frameHeight: 16})
-        this.load.spritesheet('randomBox', 'resource/img/Levels/questionMarkBlock.png', {
-            frameWidth: 16,
-            frameHeight: 16
-        })
-        this.load.spritesheet('randomBox2', 'resource/img/Levels/questionMarkBlock_2.png', {
-            frameWidth: 16,
-            frameHeight: 16
-        })
-        this.load.spritesheet('brickCoins', 'resource/img/Levels/brickCoins.png', {frameWidth: 16, frameHeight: 16})
-        this.load.spritesheet('brickCoins2', 'resource/img/Levels/brickCoins_2.png', {frameWidth: 16, frameHeight: 16})
-        this.load.spritesheet('coinBlock', 'resource/img/Items/coinBlock.png', {frameWidth: 16, frameHeight: 16})
-        this.load.spritesheet('mushroom', 'resource/img/Items/mushroom.png', {frameWidth: 16, frameHeight: 16})
-        this.load.spritesheet('flower', 'resource/img/Items/flower.png', {frameWidth: 16, frameHeight: 16})
-        this.load.image('tileset_levels', 'resource/tilemap/tileset_levels.png')
-
-        // 生物等
-        this.load.image("sheet_tileset", "resource/image/sheet_tileset.png")
-        this.load.image("super_mario_tileset", "resource/image/super-mario.png")
-        this.load.spritesheet('small_mario', 'resource/tilemap/small_mario.png', {frameWidth: 16, frameHeight: 16})
-        this.load.spritesheet('big_mario', 'resource/tilemap/big_mario.png', {frameWidth: 16, frameHeight: 32})
-        this.load.spritesheet('goomba_red', 'resource/img/Enemies/Goomba/goomba_red.png', {
-            frameWidth: 16,
-            frameHeight: 16
-        })
-
-        this.load.spritesheet('koopa_green', 'resource/img/Enemies/Koopa/koopa_green.png', {
-            frameWidth: 16,
-            frameHeight: 24
-        })
-        this.load.spritesheet('koopa_green_squish', 'resource/img/Enemies/Koopa/koopa_green_squish.png', {
-            frameWidth: 16,
-            frameHeight: 16
-        })
-
-        // tilemap example 的 atlas 文件
-        this.load.pack('Preload', 'resource/pack.json', 'Preload')
-
-    }
 
     create() {
         // 一些参数
@@ -129,9 +78,11 @@ export default class tileMapScene extends Phaser.Scene {
             this.showDebug = !this.showDebug
             this.drawDebug()
 
-
             this.player.changeMode("downgrade")
             // this.player.changeMode("upgrade")
+        })
+        this.input.keyboard.on('keydown_I', (event) => {
+            this.player.changeMode("upgrade")
         })
         /**
          *  终点前高地   x: 3050,y: 40,
@@ -143,7 +94,9 @@ export default class tileMapScene extends Phaser.Scene {
         // new player
         this.player = new PlayerSprite({
             scene: this,
-            x: 50, y: 175,
+            // x: 50, y: 175,
+            x: 260, y: 110,
+
         }, this.gameConfig.player)
 
 
