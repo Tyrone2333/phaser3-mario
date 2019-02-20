@@ -1,0 +1,245 @@
+{
+	"textures": [
+		{
+			"image": "walk-0.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 943,
+				"h": 934
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "background",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 800,
+						"h": 600
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 800,
+						"h": 600
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 800,
+						"h": 600
+					},
+					"anchor": {
+						"x": 0,
+						"y": 0
+					}
+				},
+				{
+					"filename": "sprite/0005",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 187,
+						"h": 324
+					},
+					"spriteSourceSize": {
+						"x": 33,
+						"y": 3,
+						"w": 139,
+						"h": 311
+					},
+					"frame": {
+						"x": 803,
+						"y": 1,
+						"w": 139,
+						"h": 311
+					},
+					"anchor": {
+						"x": 0.5,
+						"y": 0.5
+					}
+				},
+				{
+					"filename": "sprite/0006",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 187,
+						"h": 324
+					},
+					"spriteSourceSize": {
+						"x": 29,
+						"y": 8,
+						"w": 135,
+						"h": 311
+					},
+					"frame": {
+						"x": 803,
+						"y": 314,
+						"w": 135,
+						"h": 311
+					},
+					"anchor": {
+						"x": 0.5,
+						"y": 0.5
+					}
+				},
+				{
+					"filename": "sprite/0002",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 187,
+						"h": 324
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 8,
+						"w": 168,
+						"h": 303
+					},
+					"frame": {
+						"x": 1,
+						"y": 603,
+						"w": 168,
+						"h": 303
+					},
+					"anchor": {
+						"x": 0.5,
+						"y": 0.5
+					}
+				},
+				{
+					"filename": "sprite/0008",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 187,
+						"h": 324
+					},
+					"spriteSourceSize": {
+						"x": 22,
+						"y": 1,
+						"w": 161,
+						"h": 319
+					},
+					"frame": {
+						"x": 171,
+						"y": 603,
+						"w": 161,
+						"h": 319
+					},
+					"anchor": {
+						"x": 0.5,
+						"y": 0.5
+					}
+				},
+				{
+					"filename": "sprite/0001",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 187,
+						"h": 324
+					},
+					"spriteSourceSize": {
+						"x": 15,
+						"y": 3,
+						"w": 158,
+						"h": 316
+					},
+					"frame": {
+						"x": 334,
+						"y": 603,
+						"w": 158,
+						"h": 316
+					},
+					"anchor": {
+						"x": 0.5,
+						"y": 0.5
+					}
+				},
+				{
+					"filename": "sprite/0003",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 187,
+						"h": 324
+					},
+					"spriteSourceSize": {
+						"x": 26,
+						"y": 2,
+						"w": 152,
+						"h": 307
+					},
+					"frame": {
+						"x": 494,
+						"y": 603,
+						"w": 152,
+						"h": 307
+					},
+					"anchor": {
+						"x": 0.5,
+						"y": 0.5
+					}
+				},
+				{
+					"filename": "sprite/0007",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 187,
+						"h": 324
+					},
+					"spriteSourceSize": {
+						"x": 32,
+						"y": 2,
+						"w": 146,
+						"h": 314
+					},
+					"frame": {
+						"x": 648,
+						"y": 603,
+						"w": 146,
+						"h": 314
+					},
+					"anchor": {
+						"x": 0.5,
+						"y": 0.5
+					}
+				},
+				{
+					"filename": "sprite/0004",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 187,
+						"h": 324
+					},
+					"spriteSourceSize": {
+						"x": 42,
+						"y": 1,
+						"w": 141,
+						"h": 306
+					},
+					"frame": {
+						"x": 796,
+						"y": 627,
+						"w": 141,
+						"h": 306
+					},
+					"anchor": {
+						"x": 0.5,
+						"y": 0.5
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "3.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:c469fd88bea7c99088ac2584ea87c697:6cc19705e7b39b96deecddd16df19941:06c729ad2c8dfa192a3f7d3cf901c086$"
+	}
+}

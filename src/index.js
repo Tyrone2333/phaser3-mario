@@ -1,10 +1,11 @@
+// 无关,二段跳的 demo
+import DoubleJumpScene from './scene/DoubleJumpScene'
+import LoadingScene from "./scene/LoadingScene"
 
-import Phaser from "phaser"
-import GameScene from './scene/GameScene'
-import LoadingScene from "./scene/loadingScene"
-
-import tileMapScene from "./scene/tileMapScene"
-import gameOverScene from "./scene/gameOverScene"
+// 马里奥
+import PreLoadScene from "./scene/PreLoadScene"
+import GameScene from "./scene/GameScene"
+import gameOverScene from "./scene/GameOverScene"
 
 const config = {
     // For more settings see <https://github.com/photonstorm/phaser/blob/master/src/boot/Config.js>
@@ -28,19 +29,15 @@ const config = {
 
     scene: [
         // LoadingScene,
-        // GameScene,
-
-        tileMapScene,
+        // DoubleJumpScene,
+        PreLoadScene,
+        GameScene,
         gameOverScene
     ]
 };
 
+console.log(`当前处于 %c${process.env.NODE_ENV}%c 模式`, "background:#fff;color: #f00", "")
+
 const game = new Phaser.Game(config);
 
-
-// window.onresize = function () {
-//     game.renderer.resize(window.innerWidth, window.innerHeight)
-// 适配移动端,触发resize
-//     game.events.emit('resize')
-// }
 

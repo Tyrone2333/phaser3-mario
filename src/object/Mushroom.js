@@ -1,7 +1,7 @@
 export default class Mushroom extends Phaser.Physics.Arcade.Sprite {
 
     constructor(config) {
-        super(config.scene, config.x, config.y, "atlas", "enemy");
+        super(config.scene, config.x, config.y,"initTexture");
         config.scene.physics.world.enable(this)
         this.scene = config.scene
         this.scene.add.existing(this)  // 没这个就无法显示在scene
