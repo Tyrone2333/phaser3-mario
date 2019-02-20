@@ -8,7 +8,6 @@ export default class PreLoadScene extends Phaser.Scene {
     }
 
     preload() {
-        this.load.multiatlas('atlas_object', 'resource/atalas/atlas_object.json', "resource/atalas")
 
         // 文件加载信息
         const {width, height} = this.cameras.main
@@ -26,6 +25,9 @@ export default class PreLoadScene extends Phaser.Scene {
         this.load.on('progress', this.onProgress, this)
         this.load.on('fileprogress', this.onFileProgress, this)
         // this.load.on('complete', () => {})
+
+        // atlas 资源文件
+        this.load.multiatlas('atlas_object', 'resource/atalas/atlas_object.json', "resource/atalas")
 
         // link sprite
         this.load.spritesheet("link", 'resource/image/link.png', {frameWidth: 32, frameHeight: 32})

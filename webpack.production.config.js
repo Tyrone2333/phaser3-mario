@@ -1,26 +1,10 @@
-var path = require('path')
-var webpack = require('webpack')
-var CleanWebpackPlugin = require('clean-webpack-plugin')
-var HtmlWebpackPlugin = require('html-webpack-plugin')
-var CopyWebpackPlugin = require('copy-webpack-plugin')
+let path = require('path')
+let webpack = require('webpack')
+let CleanWebpackPlugin = require('clean-webpack-plugin')
+let HtmlWebpackPlugin = require('html-webpack-plugin')
+let CopyWebpackPlugin = require('copy-webpack-plugin')
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-
 const PROJECT_PATH = process.cwd(); // 项目目录
-
-
-// Phaser webpack config
-// var phaserModule = path.join(__dirname, '/node_modules/phaser/')
-// var phaser = path.join(phaserModule, 'src/phaser.js')
-
-var definePlugin = new webpack.DefinePlugin({
-    'process.env': JSON.stringify({
-        NODE_ENV: 'production',
-        BASE_URL: '../gameCore.aspx',
-    }),
-  __DEV__: JSON.stringify(JSON.parse(process.env.BUILD_DEV || 'false')),
-  WEBGL_RENDERER: true, // I did this to make webpack work, but I'm not really sure it should always be true
-  CANVAS_RENDERER: true // I did this to make webpack work, but I'm not really sure it should always be true
-})
 
 module.exports = function () {
     return {
@@ -37,7 +21,15 @@ module.exports = function () {
             filename: 'js/bundle.js'
         },
         plugins: [
-            definePlugin,
+            new webpack.DefinePlugin({
+                'process.env': JSON.stringify({
+                    NODE_ENV: 'production',
+                    BASE_URL: '../gameCore.aspx',
+                }),
+                __DEV__: JSON.stringify(JSON.parse(process.env.BUILD_DEV || 'false')),
+                WEBGL_RENDERER: true, // I did this to make webpack work, but I'm not really sure it should always be true
+                CANVAS_RENDERER: true // I did this to make webpack work, but I'm not really sure it should always be true
+            }),
             new CleanWebpackPlugin(['build']),
             new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
             /*new webpack.optimize.UglifyJsPlugin({
@@ -66,8 +58,15 @@ module.exports = function () {
                 hash: true
             }),
             new CopyWebpackPlugin([
-                // { from: 'assets', to: 'assets' },
-                // { from: 'resource', to: 'resource' }
+                {
+                    from: __dirname + '/static',//打包的静态资源目录地址
+                    to: './static' //打包到 build 下面的static
+                },
+                {
+                    // 用 `this.load` webpack 打包不会将他的资源引入,所以要复制到 /build 下面
+                    from: __dirname + '/resource',
+                    to: './resource'
+                }
             ]),
             // 不需要在文件名加 hash,HtmlWebpackPlugin 已经会在引入文件的后面加 hash
             new MiniCssExtractPlugin({
@@ -76,13 +75,12 @@ module.exports = function () {
                 filename: '[name].css',
                 chunkFilename: '[id].css',
             }),
-
         ],
         module: {
             rules: [
                 {
                     // test 表示测试什么文件类型
-                    test:/\.css$/,
+                    test: /\.css$/,
                     // 使用 'style-loader','css-loader'
                     use: [
                         MiniCssExtractPlugin.loader,
@@ -101,35 +99,22 @@ module.exports = function () {
                 },
                 {
                     test: /\.(gif|jpg|png|woff|svg|eot|ttf)\??.*$/,
-                    include: [ path.join(PROJECT_PATH, './src/'),path.join(PROJECT_PATH, './resource/') ],
+                    include: [path.join(PROJECT_PATH, './src/'), path.join(PROJECT_PATH, './resource/')],
                     // exclude: [config.VENDORS_PATH],
                     use: [{ // 图片文件小于8k时编译成dataUrl直接嵌入页面，超过8k回退使用file-loader
                         loader: 'url-loader',
                         options: {
-                            limit: 19*1024, // 8k
+                            limit: 19 * 1024, // 8k
                             name: './img/[name].[ext]', // 回退使用file-loader时的名称
                             fallback: 'file-loader', // 当超过8192byte时，会回退使用file-loader
                         }
                     }]
                 },
-                { test: /\.js$/, use: ['babel-loader'], include: path.join(__dirname, 'src') },
-                // { test: /phaser-split\.js$/, use: 'raw-loader' },
-                // { test: [/\.vert$/, /\.frag$/], use: 'raw-loader' }
+                {test: /\.js$/, use: ['babel-loader'], include: path.join(__dirname, 'src')},
             ]
         },
         optimization: {
             minimize: true
         }
-        /*node: {
-          fs: 'empty',
-          net: 'empty',
-          tls: 'empty'
-        },
-        resolve: {
-          alias: {
-            'phaser': phaser,
-
-          }
-        }*/
     }
 }

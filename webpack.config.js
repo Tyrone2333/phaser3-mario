@@ -1,23 +1,9 @@
-var path = require('path')
-var webpack = require('webpack')
-var HtmlWebpackPlugin = require('html-webpack-plugin')
-// var BrowserSyncPlugin = require('browser-sync-webpack-plugin')
-// var CopyWebpackPlugin = require('copy-webpack-plugin');
+let path = require('path')
+let webpack = require('webpack')
+let HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const PROJECT_PATH = process.cwd(); // 项目目录
-
-var definePlugin = new webpack.DefinePlugin({
-    // 'process.env': config.dev.env
-    'process.env': JSON.stringify({
-        NODE_ENV: 'development',
-        BASE_URL: 'http://tm.lilanz.com/qywx/2018/pig/gameCore.aspx',
-    }),
-
-    __DEV__: JSON.stringify(JSON.parse(process.env.BUILD_DEV || 'true')),
-    WEBGL_RENDERER: true, // I did this to make webpack work, but I'm not really sure it should always be true
-    CANVAS_RENDERER: true // I did this to make webpack work, but I'm not really sure it should always be true
-})
-
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 module.exports = function (env, argv) {
     return {
         entry: {
@@ -40,7 +26,13 @@ module.exports = function (env, argv) {
         },
         watch: true,
         plugins: [
-            definePlugin,
+            new webpack.DefinePlugin({
+                // 'process.env': config.dev.env
+                'process.env': JSON.stringify({
+                    NODE_ENV: 'development',
+                    BASE_URL: 'http://tm.lilanz.com/qywx/2018/pig/gameCore.aspx',
+                })
+            }),
             new HtmlWebpackPlugin({
                 filename: 'index.html',
                 template: './src/index.html',
@@ -65,14 +57,12 @@ module.exports = function (env, argv) {
                 filename: '[name].css',
                 chunkFilename: '[id].css',
             }),
-            // new BrowserSyncPlugin({
-            //     host: process.env.IP || 'localhost',
-            //     port: process.env.PORT || 3000,
-            //     server: {
-            //         baseDir: ['./', './dev']
-            //     },
-            //     open:false
-            // })
+            new CopyWebpackPlugin([
+                {
+                    from:__dirname+'/static',//打包的静态资源目录地址
+                    to:'./static' //打包到dist下面的static
+                }
+            ]),
         ],
         module: {
             rules: [
@@ -116,8 +106,6 @@ module.exports = function (env, argv) {
                     }]
                 },
                 {test: /\.js$/, use: ['babel-loader'], include: path.join(__dirname, 'src')},
-                // {test: /phaser-split\.js$/, use: ['expose-loader?Phaser']},
-                // {test: [/\.vert$/, /\.frag$/], use: 'raw-loader'}
             ]
         },
         devServer: {
@@ -136,16 +124,5 @@ module.exports = function (env, argv) {
             //     }
             // }
         },
-
-        /* node: {
-             fs: 'empty',
-             net: 'empty',
-             tls: 'empty'
-         },
-         resolve: {
-             alias: {
-                 'phaser': phaser,
-             }
-         }*/
     }
 }

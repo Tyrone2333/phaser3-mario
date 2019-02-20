@@ -1,5 +1,3 @@
-// import Phaser from "phaser"
-
 // 无关,二段跳的 demo
 import DoubleJumpScene from './scene/DoubleJumpScene'
 import LoadingScene from "./scene/LoadingScene"
@@ -38,12 +36,8 @@ const config = {
     ]
 };
 
+console.log(`当前处于 %c${process.env.NODE_ENV}%c 模式`, "background:#fff;color: #f00", "")
+
 const game = new Phaser.Game(config);
 
-
-// window.onresize = function () {
-//     game.renderer.resize(window.innerWidth, window.innerHeight)
-// 适配移动端,触发resize
-//     game.events.emit('resize')
-// }
 
