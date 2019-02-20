@@ -1,10 +1,7 @@
-import {gameConfig,} from "../config/index"
-
-
-export default class GameScene extends Phaser.Scene {
+export default class DoubleJumpScene extends Phaser.Scene {
     constructor() {
         super({
-            key: 'gameScene'
+            key: 'DoubleJumpScene'
         })
         this.player = {}
         this.jumping = 0    // 跳跃中

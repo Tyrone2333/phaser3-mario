@@ -1,9 +1,9 @@
 import PlayerSprite from "../object/Player"
 
-export default class preLoadScene extends Phaser.Scene {
+export default class PreLoadScene extends Phaser.Scene {
     constructor() {
         super({
-            key: 'preLoadScene',
+            key: 'PreLoadScene',
         })
     }
 
@@ -25,13 +25,7 @@ export default class preLoadScene extends Phaser.Scene {
 
         this.load.on('progress', this.onProgress, this)
         this.load.on('fileprogress', this.onFileProgress, this)
-        this.load.on('complete', () => {
-            // this.assetText.setText("预加载完成")
-            console.log("预加载完成")
-            // 生成动画
-            this.buildAnimations()
-            this.scene.start('tileMapScene')
-        })
+        // this.load.on('complete', () => {})
 
         // link sprite
         this.load.spritesheet("link", 'resource/image/link.png', {frameWidth: 32, frameHeight: 32})
@@ -88,8 +82,18 @@ export default class preLoadScene extends Phaser.Scene {
     }
 
 
-    create() {
+    sleep(t) {
+        return new Promise(resolve => {
+            setTimeout(resolve, t)
+        })
+    }
 
+    async create() {
+        // this.assetText.setText("预加载完成")
+        console.log("预加载完成")
+        // 生成动画
+        this.buildAnimations()
+        this.scene.start('GameScene')
     }
 
     buildAnimations() {

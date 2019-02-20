@@ -1,13 +1,13 @@
-import Phaser from "phaser"
+// import Phaser from "phaser"
 
 // 无关,二段跳的 demo
-import GameScene from './scene/GameScene'
+import DoubleJumpScene from './scene/DoubleJumpScene'
 import LoadingScene from "./scene/LoadingScene"
 
 // 马里奥
-import preLoadScene from "./scene/preLoadScene"
-import tileMapScene from "./scene/tileMapScene"
-import gameOverScene from "./scene/gameOverScene"
+import PreLoadScene from "./scene/PreLoadScene"
+import GameScene from "./scene/GameScene"
+import gameOverScene from "./scene/GameOverScene"
 
 const config = {
     // For more settings see <https://github.com/photonstorm/phaser/blob/master/src/boot/Config.js>
@@ -31,9 +31,9 @@ const config = {
 
     scene: [
         // LoadingScene,
-        // GameScene,
-        preLoadScene,
-        tileMapScene,
+        // DoubleJumpScene,
+        PreLoadScene,
+        GameScene,
         gameOverScene
     ]
 };

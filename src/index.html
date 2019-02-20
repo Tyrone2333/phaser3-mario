@@ -1,12 +1,21 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
+    <meta name="viewport"
+          content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <title>template</title>
+
+
+    <!--<script src="../src/lib/vconsole.min.js" charset="utf-8"></script>-->
+    <!--<script>-->
+    <!--// init vConsole-->
+    <!--var vConsole = new VConsole();-->
+    <!--</script>-->
+
     <script>
         function log(message) {
-            const date = new Date()
-            const time = `[${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}]\t`
-
             if (typeof message === "string") {
                 console.log("%c " + message + " %c",
                     "background:#fff; padding: 1px; color: #1b54f2", "background:transparent")
@@ -30,11 +39,15 @@
 
         window.log = log;
     </script>
+
 </head>
+
 <body>
 
+<script src="../src/lib/zepto.min.js"></script>
+<script src="../src/lib/phaser.min.v3.16.2.js"></script>
 
-
-<script src="build/project.bundle.js" charset="utf-8"></script>
+<script src="../src/lib/flexible.min.js"></script>
 </body>
+
 </html>

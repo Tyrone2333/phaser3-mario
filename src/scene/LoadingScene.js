@@ -1,7 +1,7 @@
 export default class LoadingScene extends Phaser.Scene {
     constructor() {
         super({
-            key: 'loadingScene',
+            key: 'LoadingScene',
             pack: {
                 files: [
                     {type: 'image', key: 'loadingbar_bg', url: 'resource/image/loadingbar_bg.png'},

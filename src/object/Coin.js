@@ -1,7 +1,7 @@
 export default class Coin extends Phaser.Physics.Arcade.Sprite {
 
     constructor(config) {
-        super(config.scene, config.x, config.y, "sheet_tileset");
+        super(config.scene, config.x, config.y, "initTexture");
         config.scene.physics.world.enable(this);
         this.scene = config.scene;
         this.number = config.number;

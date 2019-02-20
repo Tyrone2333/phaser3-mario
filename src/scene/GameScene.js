@@ -8,12 +8,11 @@ import Flower from "../object/Flower"
 import Brick from "../object/Brick"
 
 
-import Test from "../object/test"
 
-export default class tileMapScene extends Phaser.Scene {
+export default class GameScene extends Phaser.Scene {
     constructor() {
         super({
-            key: 'tileMapScene'
+            key: 'GameScene'
         })
         // 控制相机是跟随玩家还是用按键控制,把需要的模式放在最前面
         this.cameraMode = "follow" || "keyControl" || null
@@ -308,15 +307,15 @@ export default class tileMapScene extends Phaser.Scene {
 
     //  生成各种组(动态 sprite )
     createGroupFromObjects() {
-        this.playerAttackGroup = this.add.group(null)
+        this.playerAttackGroup = this.add.group()
         this.playerAttackGroup.runChildUpdate = true
-        this.enemiesGroup = this.add.group(null)
+        this.enemiesGroup = this.add.group()
         this.enemiesGroup.runChildUpdate = true
-        this.coinsGroup = this.add.group(null)
+        this.coinsGroup = this.add.group()
         this.coinsGroup.runChildUpdate = true
-        this.mushroomOrFlowerGroup = this.add.group(null)
+        this.mushroomOrFlowerGroup = this.add.group()
         this.mushroomOrFlowerGroup.runChildUpdate = true
-        this.flowerGroup = this.add.group(null)
+        this.flowerGroup = this.add.group()
         this.flowerGroup.runChildUpdate = true
 
 
@@ -565,7 +564,7 @@ export default class tileMapScene extends Phaser.Scene {
             }
         }
 
-        this.scene.start('tileMapScene', restartConfig)
+        this.scene.start('GameScene', restartConfig)
 
     }
 }
