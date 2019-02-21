@@ -1,4 +1,4 @@
-import PlayerSprite from "../object/Player"
+import makeAnimations from '../helpers/animations';
 
 export default class PreLoadScene extends Phaser.Scene {
     constructor() {
@@ -28,10 +28,11 @@ export default class PreLoadScene extends Phaser.Scene {
 
         // atlas 资源文件
         this.load.multiatlas('atlas_object', 'resource/atalas/atlas_object.json', "resource/atalas")
+        this.load.multiatlas('mario-sprites', 'resource/atalas/mario-sprites.json', "resource/atalas")
+        // this.load.atlas('mario-sprites', 'assets/mario-sprites.png', 'assets/mario-sprites.json');
 
-        // link sprite
-        this.load.spritesheet("link", 'resource/image/link.png', {frameWidth: 32, frameHeight: 32})
-
+        // bitmapFont 字体
+        this.load.bitmapFont('font', 'resource/fonts/font.png', 'resource/fonts/font.fnt');
 
         // 带 object 的 mario 地图
         this.load.tilemapTiledJSON({key: 'level1', url: 'resource/tilemap/level1.json'})
@@ -58,8 +59,6 @@ export default class PreLoadScene extends Phaser.Scene {
         this.load.image('tileset_levels', 'resource/tilemap/tileset_levels.png')
 
         // 生物等
-        this.load.image("sheet_tileset", "resource/image/sheet_tileset.png")
-        this.load.image("super_mario_tileset", "resource/image/super-mario.png")
         this.load.spritesheet('small_mario', 'resource/tilemap/small_mario.png', {frameWidth: 16, frameHeight: 16})
         this.load.spritesheet('big_mario', 'resource/tilemap/big_mario.png', {frameWidth: 16, frameHeight: 32})
         this.load.spritesheet('goomba_red', 'resource/img/Enemies/Goomba/goomba_red.png', {
@@ -95,7 +94,10 @@ export default class PreLoadScene extends Phaser.Scene {
         console.log("预加载完成")
         // 生成动画
         this.buildAnimations()
+        makeAnimations(this)
         this.scene.start('GameScene')
+        // this.scene.start('BlankScene')
+
     }
 
     buildAnimations() {

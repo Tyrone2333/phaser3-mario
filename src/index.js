@@ -6,6 +6,7 @@ import LoadingScene from "./scene/LoadingScene"
 import PreLoadScene from "./scene/PreLoadScene"
 import GameScene from "./scene/GameScene"
 import gameOverScene from "./scene/GameOverScene"
+import BlankScene from "./scene/BlankScene"
 
 const config = {
     // For more settings see <https://github.com/photonstorm/phaser/blob/master/src/boot/Config.js>
@@ -32,7 +33,8 @@ const config = {
         // DoubleJumpScene,
         PreLoadScene,
         GameScene,
-        gameOverScene
+        gameOverScene,
+        BlankScene
     ]
 };
 

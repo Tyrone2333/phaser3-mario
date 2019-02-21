@@ -7,7 +7,7 @@ import Mushroom from "../object/Mushroom"
 import Flower from "../object/Flower"
 import Brick from "../object/Brick"
 
-
+import Button from "../object/Button"
 
 export default class GameScene extends Phaser.Scene {
     constructor() {
@@ -78,7 +78,6 @@ export default class GameScene extends Phaser.Scene {
             this.drawDebug()
 
             this.player.changeMode("downgrade")
-            // this.player.changeMode("upgrade")
         })
         this.input.keyboard.on('keydown_I', (event) => {
             this.player.changeMode("upgrade")
@@ -137,19 +136,18 @@ export default class GameScene extends Phaser.Scene {
 
 
         /**
-         * 滚动因子控制相机移动对此游戏对象的影响。
-         当相机滚动时，它将改变在屏幕上呈现此游戏对象的位置。
-         它不会更改游戏对象的实际位置值。
+         *  滚动因子控制相机移动对此游戏对象的影响。
+         *  当相机滚动时，它将改变在屏幕上呈现此游戏对象的位置。
+         *  它不会更改游戏对象的实际位置值。
          *  值为1表示它将与摄像机完全同步移动。
-         值为0表示即使相机移动也不会移动。
-         但实际测试为0会随着镜头移动而移动,不论设置为0还是1 or 其他 文本的x,y都不改变
+         *  值为0表示即使相机移动也不会移动。
+         *  但实际测试为0会随着镜头移动而移动,不论设置为0还是1 or 其他 文本的x,y都不改变
          */
         this.scoreText = this.add.text(0, 0, "score : 0").setScrollFactor(0)
         this.debugText = {
             pointPosition: this.add.text(0, 50, "指针:").setScrollFactor(0),
             playerLife: this.add.text(120, 0, "生命:").setScrollFactor(0)
         }
-
 
         // 事件的监听
         this.events.on('drawDebugEvent', function () {

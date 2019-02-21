@@ -175,9 +175,9 @@
             <key>heuristicMask</key>
             <false/>
             <key>defaultPivotPoint</key>
-            <point_f>0.5,0.5</point_f>
+            <point_f>0.498054,0.355346</point_f>
             <key>writePivotPoints</key>
-            <false/>
+            <true/>
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
@@ -328,6 +328,13 @@
             <key type="filename">Player/Mario_Fire/fireBall_05.png</key>
             <key type="filename">Player/Mario_Fire/fireBall_06.png</key>
             <key type="filename">Player/Mario_Fire/fireBall_07.png</key>
+            <key type="filename">Player/Mario_Fire/images/fireBall_01.png</key>
+            <key type="filename">Player/Mario_Fire/images/fireBall_02.png</key>
+            <key type="filename">Player/Mario_Fire/images/fireBall_03.png</key>
+            <key type="filename">Player/Mario_Fire/images/fireBall_04.png</key>
+            <key type="filename">Player/Mario_Fire/images/fireBall_05.png</key>
+            <key type="filename">Player/Mario_Fire/images/fireBall_06.png</key>
+            <key type="filename">Player/Mario_Fire/images/fireBall_07.png</key>
             <key type="filename">Player/Mario_Small/small_mario_01.png</key>
             <key type="filename">Player/Mario_Small/small_mario_02.png</key>
             <key type="filename">Player/Mario_Small/small_mario_03.png</key>
