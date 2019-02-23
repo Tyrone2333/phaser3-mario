@@ -262,7 +262,6 @@ export default class PlayerSprite extends Phaser.Physics.Arcade.Sprite {
         // 攻击
         this.scene.input.on('pointerdown', this.handleFire, this)
         this.scene.input.keyboard.on('keydown', (event) => {
-            console.log(event,event.code === "SPACE")
             if (event.code === "Space")
                 this.handleFire()
         })
@@ -277,7 +276,6 @@ export default class PlayerSprite extends Phaser.Physics.Arcade.Sprite {
                 y: this.y,
             })
             this.scene.playerAttackGroup.add(fireball)
-            console.log(this.direction)
             fireball.fire(this.x, this.y, this.direction !== 1)
         }
     }

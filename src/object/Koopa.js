@@ -18,7 +18,6 @@ export default class Koopa extends Enemy {
             recoverFinish: 0,   // 恢复完成的时间
         }
 
-        console.log(this)
     }
 
     update(time, delta) {

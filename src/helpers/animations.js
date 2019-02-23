@@ -8,8 +8,8 @@ export default function makeAnimations(scene) {
             end: 14,
             first: 14
         })
-    };
-    scene.anims.create(config);
+    }
+    scene.anims.create(config)
     config = {
         key: 'blockTile',
         frames: scene.anims.generateFrameNumbers('tiles', {
@@ -17,10 +17,10 @@ export default function makeAnimations(scene) {
             end: 43,
             first: 43
         })
-    };
+    }
     scene.anims.create(config);
 
-
+    // 用 [] 直接 forEach 前面记得加 ; 否则会被当成 create(config)[]
     // Mario animations: One without suffix, super after mushroom and fire after flower
     ['', 'Super', 'Fire'].forEach((suffix) => {
         config = {
@@ -33,47 +33,47 @@ export default function makeAnimations(scene) {
             frameRate: 10,
             repeat: -1,
             repeatDelay: 0
-        };
+        }
         scene.anims.create(config);
         // Jump, Stand and Turn: one frame each
         ["jump", 'stand', 'turn', 'bend'].forEach(
             (anim) => {
                 if (anim === 'bend' && suffix === '') {
                     // No bend animation when Mario is small
-                    return;
+                    return
                 }
-                config.key = anim + suffix;
+                config.key = anim + suffix
                 config.frames = [{
                     frame: 'mario/' + anim + suffix,
                     key: 'mario-sprites'
                 }]
-                scene.anims.create(config);
+                scene.anims.create(config)
             }
-        );
+        )
         // Climb
-        config.key = 'climb' + suffix;
+        config.key = 'climb' + suffix
         config.frames = scene.anims.generateFrameNames('mario-sprites', {
             prefix: 'mario/climb' + suffix,
             start: 1,
             end: 2
-        });
-        scene.anims.create(config);
+        })
+        scene.anims.create(config)
         // Swim
-        config.key = 'swim' + suffix;
+        config.key = 'swim' + suffix
         config.frames = scene.anims.generateFrameNames('mario-sprites', {
             prefix: 'mario/swim' + suffix,
             start: 1,
             end: 6
-        });
-        scene.anims.create(config);
-    });
-
-    config.key = "death";
+        })
+        scene.anims.create(config)
+    })
+// ============
+    config.key = "death"
     config.frames = scene.anims.generateFrameNumbers('mario', {
         start: 22,
         end: 22
-    }),
-        scene.anims.create(config);
+    })
+    scene.anims.create(config)
 
     // Didn't find a good way to create an animation with frame names without a pattern.
     let frames = [];
@@ -82,26 +82,25 @@ export default function makeAnimations(scene) {
             frames.push({
                 frame,
                 key: 'mario-sprites'
-            });
+            })
         }
-    );
-    console.log(frames)
+    )
     config = {
         key: "grow",
         frames: frames,
         frameRate: 10,
         repeat: 0,
         repeatDelay: 0
-    };
-    scene.anims.create(config);
+    }
+    scene.anims.create(config)
     config = {
         key: "shrink",
         frames: frames.reverse(),
         frameRate: 10,
         repeat: 0,
         repeatDelay: 0
-    };
-    scene.anims.create(config);
+    }
+    scene.anims.create(config)
     // ALL MARIO ANIMATIONS DONE
 
 
@@ -115,16 +114,16 @@ export default function makeAnimations(scene) {
         frameRate: 5,
         repeat: -1,
         repeatDelay: 0
-    };
-    scene.anims.create(config);
+    }
+    scene.anims.create(config)
     config = {
         key: 'goombaFlat',
         frames: [{
             key: "mario-sprites",
             frame: 'goomba/flat'
         }],
-    };
-    scene.anims.create(config);
+    }
+    scene.anims.create(config)
     config = {
         key: 'turtle',
         frames: scene.anims.generateFrameNames('mario-sprites', {
@@ -134,9 +133,9 @@ export default function makeAnimations(scene) {
         frameRate: 5,
         repeat: -1,
         repeatDelay: 0
-    };
+    }
 
-    scene.anims.create(config);
+    scene.anims.create(config)
     config = {
         key: 'mario/climb',
         frames: scene.anims.generateFrameNames('mario-sprites', {
@@ -146,8 +145,8 @@ export default function makeAnimations(scene) {
         frameRate: 5,
         repeat: -1,
         repeatDelay: 0
-    };
-    scene.anims.create(config);
+    }
+    scene.anims.create(config)
     config = {
         key: 'mario/climbSuper',
         frames: scene.anims.generateFrameNames('mario-sprites', {
@@ -157,9 +156,9 @@ export default function makeAnimations(scene) {
         frameRate: 5,
         repeat: -1,
         repeatDelay: 0
-    };
+    }
 
-    scene.anims.create(config);
+    scene.anims.create(config)
 
     config = {
         key: 'flag',
@@ -168,8 +167,8 @@ export default function makeAnimations(scene) {
             frame: 'flag'
         }],
         repeat: -1,
-    };
-    scene.anims.create(config);
+    }
+    scene.anims.create(config)
 
     config = {
         key: 'turtleShell',
@@ -177,9 +176,9 @@ export default function makeAnimations(scene) {
             frame: 'turtle/shell',
             key: 'mario-sprites'
         }],
-    };
+    }
 
-    scene.anims.create(config);
+    scene.anims.create(config)
 
     config = {
         key: 'mushroom',
@@ -188,8 +187,8 @@ export default function makeAnimations(scene) {
             key: 'mario-sprites'
         }],
 
-    };
-    scene.anims.create(config);
+    }
+    scene.anims.create(config)
 
     config = {
         key: 'coin',
@@ -201,8 +200,8 @@ export default function makeAnimations(scene) {
         frameRate: 30,
         repeat: -1,
         repeatDelay: 0
-    };
-    scene.anims.create(config);
+    }
+    scene.anims.create(config)
 
     config = {
         key: '1up',
@@ -210,8 +209,8 @@ export default function makeAnimations(scene) {
             frame: 'powerup/1up',
             key: 'mario-sprites'
         }],
-    };
-    scene.anims.create(config);
+    }
+    scene.anims.create(config)
 
 
     config = {
@@ -224,8 +223,8 @@ export default function makeAnimations(scene) {
         frameRate: 30,
         repeat: -1,
         repeatDelay: 0
-    };
-    scene.anims.create(config);
+    }
+    scene.anims.create(config)
 
     config = {
         key: 'star',
@@ -237,24 +236,24 @@ export default function makeAnimations(scene) {
         frameRate: 30,
         repeat: -1,
         repeatDelay: 0
-    };
-    scene.anims.create(config);
+    }
+    scene.anims.create(config)
     config = {
         key: 'dpad',
         frames: [{
             frame: 'controller/dpad',
             key: 'mario-sprites'
         }],
-    };
-    scene.anims.create(config);
+    }
+    scene.anims.create(config)
     config = {
         key: 'button',
         frames: [{
             frame: 'controller/button',
             key: 'mario-sprites'
         }],
-    };
-    scene.anims.create(config);
+    }
+    scene.anims.create(config)
 
     config = {
         key: 'fireFly',
@@ -266,8 +265,8 @@ export default function makeAnimations(scene) {
         frameRate: 10,
         repeat: -1,
         repeatDelay: 0
-    };
-    scene.anims.create(config);
+    }
+    scene.anims.create(config)
 
     config = {
         key: 'fireExplode',
@@ -279,10 +278,7 @@ export default function makeAnimations(scene) {
         frameRate: 30,
         repeat: 0,
         repeatDelay: 0
-    };
+    }
 
-
-    scene.anims.create(config);
-
-    console.log(scene.anims.anims.entries)
+    scene.anims.create(config)
 }
