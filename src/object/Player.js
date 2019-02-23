@@ -33,7 +33,7 @@ export default class PlayerSprite extends Phaser.Physics.Arcade.Sprite {
         }
 
 
-        this.currentModeIndex = 2   // 模式索引值,对应 [DIE_MODE, SMALL_MODE, BIG_MODE, FIRE_MODE]
+        this.currentModeIndex = 1   // 模式索引值,对应 [DIE_MODE, SMALL_MODE, BIG_MODE, FIRE_MODE]
         // this.small();
 
         this.dieAnimPlaying = false
@@ -116,6 +116,10 @@ export default class PlayerSprite extends Phaser.Physics.Arcade.Sprite {
 
                 }
             }
+            // // 开火的控制
+            // if (this.keys.fire.isDown) {
+            //     this.handleFire()
+            // }
         }
         // !this.alive
         else {
@@ -138,6 +142,7 @@ export default class PlayerSprite extends Phaser.Physics.Arcade.Sprite {
             this.body.velocity.x = 0
 
             this.emitter.stopFollow(this)
+            this.emitter.explode()
         }
         const SMALL_MODE = () => {
             this.bigMode = false
@@ -251,25 +256,30 @@ export default class PlayerSprite extends Phaser.Physics.Arcade.Sprite {
             down: this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.O),
             right: this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E),
             up: this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.COMMA),   // ",键"
+            fire: this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE),   // ",键"
         }
 
         // 攻击
-        this.scene.input.on('pointerdown', function (pointer) {
-            // let magic = this.scene.registry.get('magic_current')
-            if (this.ability.fireball) {
-                let fireball = new Fireball({
-                    scene: this.scene,
-                    x: this.x,
-                    y: this.y,
-                })
-                this.scene.playerAttackGroup.add(fireball)
-                fireball.fire(this.x, this.y, false)
-                // this.scene.registry.set('magic_current', magic - 1)
-                // this.scene.events.emit('magicChange') //tell the scene the magic has changed so the HUD is updated
-            } else {
-                // this.noMagicSound.play()
-            }
-        }, this)
+        this.scene.input.on('pointerdown', this.handleFire, this)
+        this.scene.input.keyboard.on('keydown', (event) => {
+            console.log(event,event.code === "SPACE")
+            if (event.code === "Space")
+                this.handleFire()
+        })
+    }
+
+    handleFire() {
+        // 判断是否能开火
+        if (this.ability.fireball) {
+            let fireball = new Fireball({
+                scene: this.scene,
+                x: this.x,
+                y: this.y,
+            })
+            this.scene.playerAttackGroup.add(fireball)
+            console.log(this.direction)
+            fireball.fire(this.x, this.y, this.direction !== 1)
+        }
     }
 
     //  TODO 把砖块抽象成一个类

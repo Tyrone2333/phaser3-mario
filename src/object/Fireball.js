@@ -51,7 +51,6 @@ export default class Fireball extends Phaser.GameObjects.Sprite {
     explode() {
         this.body.allowGravity = false;
         this.body.velocity.y = 0;
-        console.log(this.scene.playerAttackGroup.children)
         // 为了防止在和 enemy 碰撞后再和墙壁碰撞,destroy() 以后再播放动画导致错误
         if (this.hasCollided) {
             return
