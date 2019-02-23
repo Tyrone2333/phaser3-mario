@@ -57,7 +57,7 @@ export default class PreLoadScene extends Phaser.Scene {
         this.load.spritesheet('mushroom', 'resource/img/Items/mushroom.png', {frameWidth: 16, frameHeight: 16})
         this.load.spritesheet('flower', 'resource/img/Items/flower.png', {frameWidth: 16, frameHeight: 16})
         this.load.image('tileset_levels', 'resource/tilemap/tileset_levels.png')
-
+        this.load.image('red', 'resource/particles/red.png');
         // 生物等
         this.load.spritesheet('small_mario', 'resource/tilemap/small_mario.png', {frameWidth: 16, frameHeight: 16})
         this.load.spritesheet('big_mario', 'resource/tilemap/big_mario.png', {frameWidth: 16, frameHeight: 32})

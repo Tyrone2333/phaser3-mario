@@ -164,7 +164,7 @@ export default class GameScene extends Phaser.Scene {
         //         this.y = y
         //     }
         // }
-        this.crosshair = this.add.sprite(0,0,"crosshair").setAlpha(0)
+        this.crosshair = this.add.sprite(0, 0, "crosshair").setAlpha(0)
 
         //刷新 crosshair 的位置
         this.input.on('pointermove', (mouse) => {
@@ -265,11 +265,19 @@ export default class GameScene extends Phaser.Scene {
             repeat: -1
         })
         //  王八缩壳
+        // this.anims.create({
+        //     key: "koopaSquish_anim",
+        //     frames: this.anims.generateFrameNumbers("koopa_green_squish", {start: 0, end: 0}),
+        //     frameRate: 1,
+        //     repeat: 1
+        // })
         this.anims.create({
             key: "koopaSquish_anim",
-            frames: this.anims.generateFrameNumbers("koopa_green_squish", {start: 0, end: 0}),
-            frameRate: 1,
-            repeat: 1
+            // 从 atlas 选择一个单独的 frame
+            frames: [{
+                frame: 'Enemies/Koopa/koopa green squish 2',
+                key: 'atlas_object'
+            }]
         })
         //  王八缩壳恢复
         this.anims.create({
@@ -481,11 +489,11 @@ export default class GameScene extends Phaser.Scene {
         })
         // fireball 打墙
         this.physics.add.collider(this.playerAttackGroup, this.graphicLayer, (fireball, tile) => {
-            fireball.collidedExplode()
+            fireball.collided()
             // this.graphicLayer.removeTileAt(tile.x, tile.y)  // 破坏地形
         })
         this.physics.add.collider(this.playerAttackGroup, this.enemiesGroup, (fireball, enemy) => {
-            fireball.collidedExplode()
+            fireball.explode()
             enemy.collidingWithFireball()
         })
         this.physics.add.overlap(this.player, this.enemiesGroup, (player, enemy) => {
@@ -494,7 +502,7 @@ export default class GameScene extends Phaser.Scene {
 
         // player 掉坑里
         this.physics.add.collider(this.player, this.deadZoneGroup, (player, deadZone) => {
-            player.enentEmitter.emit('getDamage', deadZone);
+            player.eventEmitter.emit('getDamage', deadZone);
 
         })
         // enemy 掉坑里

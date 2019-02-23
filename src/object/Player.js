@@ -33,10 +33,26 @@ export default class PlayerSprite extends Phaser.Physics.Arcade.Sprite {
         }
 
 
-        this.currentModeIndex = 1   // 模式索引值,对应 [DIE_MODE, SMALL_MODE, BIG_MODE, FIRE_MODE]
+        this.currentModeIndex = 2   // 模式索引值,对应 [DIE_MODE, SMALL_MODE, BIG_MODE, FIRE_MODE]
         // this.small();
 
         this.dieAnimPlaying = false
+
+        // fire 模式的马里奥自带粒子
+        // let particles = this.scene.add.particles("atlas_object","Items/coin",);
+        let particles = this.scene.add.particles("red")
+        this.emitter = particles.createEmitter({
+            radial: false,
+            // x: 100,
+            // y: { min: 0, max: 560, steps: 256 },
+            lifespan: 1000,
+            // speedX: { min: -50, max: -100 },
+            // speedX: { min: -50, max: -100 },
+            quantity: 4,
+            // gravityY: -50,
+            scale: {start: 0.6, end: 0, ease: 'Power3'},
+            blendMode: 'ADD'
+        });
 
         // 创建人物动画
         this.creatAnims()
@@ -44,8 +60,8 @@ export default class PlayerSprite extends Phaser.Physics.Arcade.Sprite {
         this.creatControls()
 
         //  监听事件
-        this.enentEmitter = new Phaser.Events.EventEmitter();
-        this.enentEmitter.on('getDamage', this.getDamageHandler, this);
+        this.eventEmitter = new Phaser.Events.EventEmitter();
+        this.eventEmitter.on('getDamage', this.getDamageHandler, this);
 
 
     }
@@ -120,6 +136,8 @@ export default class PlayerSprite extends Phaser.Physics.Arcade.Sprite {
             this.alive = false
             this.direction = 0
             this.body.velocity.x = 0
+
+            this.emitter.stopFollow(this)
         }
         const SMALL_MODE = () => {
             this.bigMode = false
@@ -129,7 +147,7 @@ export default class PlayerSprite extends Phaser.Physics.Arcade.Sprite {
             console.log(this.scene)
             // this.setTexture("atalas", this.frame.name)    // 替换内容和当前 frame 动作相同
             this.setSize(16, 16)
-            this.setOffset(0,0)
+            this.setOffset(0, 0)
 
             // this.originY = 0 // 此游戏对象的垂直原点
         }
@@ -140,16 +158,18 @@ export default class PlayerSprite extends Phaser.Physics.Arcade.Sprite {
             // this.setTexture("big_mario",this.anims.currentFrame.index)
             // this.setTexture("big_mario", this.frame.name)    // 替换内容和当前 frame 动作相同
             this.setSize(16, 32)
-            this.setOffset(0,0)
+            this.setOffset(0, 0)
             this.y -= 16
             // this.originY = 0.5 // 此游戏对象的垂直原点
+            this.emitter.stopFollow(this)
         }
         const FIRE_MODE = () => {
             this.bigMode = true
             this.ability.fireball = true
-            // this.setSize(16, 32)
-            // // this.y -= 16
-            // this.originY = 0.25 // 此游戏对象的垂直原点
+
+            this.emitter.startFollow(this)
+
+
         }
         //  模式只能按序升降级
         const MODE_ARR = [DIE_MODE, SMALL_MODE, BIG_MODE, FIRE_MODE]
@@ -243,7 +263,7 @@ export default class PlayerSprite extends Phaser.Physics.Arcade.Sprite {
                     y: this.y,
                 })
                 this.scene.playerAttackGroup.add(fireball)
-
+                fireball.fire(this.x, this.y, false)
                 // this.scene.registry.set('magic_current', magic - 1)
                 // this.scene.events.emit('magicChange') //tell the scene the magic has changed so the HUD is updated
             } else {

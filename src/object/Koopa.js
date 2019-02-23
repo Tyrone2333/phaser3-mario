@@ -5,9 +5,7 @@ export default class Koopa extends Enemy {
     constructor(scene, x, y, texture) {
         super(scene, x, y, texture)
 
-
-        this.anims.play("koopaWalk_anim")
-
+        this.walk()
         this.isSquished = false // 是否缩壳
         this.onRecover = false // 正在恢复
         this.isSquishFly = false // 缩壳飞行模式
@@ -20,12 +18,12 @@ export default class Koopa extends Enemy {
             recoverFinish: 0,   // 恢复完成的时间
         }
 
-console.log(this)
+        console.log(this)
     }
 
     update(time, delta) {
         // 在视野之外,停止运动
-        if(Math.abs(  this.x - this.scene.player.x ) >= 450){
+        if (Math.abs(this.x - this.scene.player.x) >= 450) {
             return
         }
 
@@ -62,9 +60,8 @@ console.log(this)
                 }
                 //  恢复完成
                 if (this.timeManage.recoverFinish < this.timeManage.nowTime && !this.isSquishFly) {
-                    this.anims.play("koopaWalk_anim")
+                    this.walk()
                     this.direction = -1
-                    this.isSquished = false // 是否缩壳
                     this.onRecover = false
                 }
             }
@@ -81,6 +78,20 @@ console.log(this)
         }
     }
 
+    walk() {
+        this.anims.play("koopaWalk_anim")
+        this.isSquished = false // 是否缩壳
+        this.setSize(16,24)
+        this.setOffset(0,0)
+    }
+
+    squish() {
+        this.anims.play("koopaSquish_anim")
+        this.isSquished = true
+        this.setSize(16,16)
+        this.setOffset(0,0)
+    }
+
 
     collidingWithPlayer() {
         // player 踩到 this
@@ -93,7 +104,7 @@ console.log(this)
                 } else {
                     this.direction = 1
                 }
-                this.anims.play("koopaSquish_anim")
+                this.squish()
                 this.isSquishFly = true
 
             } else {
@@ -101,8 +112,7 @@ console.log(this)
                 this.direction = 0
                 this.body.velocity.x = 0
                 this.anims.stop()
-                this.anims.play("koopaSquish_anim")
-                this.isSquished = true
+                this.squish()
                 this.scene.player.jump()
                 this.timeManage.startSquish = this.timeManage.nowTime
                 this.timeManage.startRecover = this.timeManage.nowTime + this.recoveryInterval
@@ -112,11 +122,11 @@ console.log(this)
         }
         // 不是踩死,普通碰撞
         else {
-            if (this.alive && !this.isSquished){
-                this.scene.player.enentEmitter.emit('getDamage', this);
+            if (this.alive && !this.isSquished) {
+                this.scene.player.eventEmitter.emit('getDamage', this);
             }
-            if( this.isSquishFly){
-                this.scene.player.enentEmitter.emit('getDamage', this);
+            if (this.isSquishFly) {
+                this.scene.player.eventEmitter.emit('getDamage', this);
 
             }
         }
