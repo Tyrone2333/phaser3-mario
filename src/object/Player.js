@@ -253,9 +253,13 @@ export default class PlayerSprite extends Phaser.Physics.Arcade.Sprite {
     creatControls() {
         this.keys = {
             left: this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A),
-            down: this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.O),
-            right: this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E),
-            up: this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.COMMA),   // ",键"
+            down: this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S),
+            right: this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D),
+            up: this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W),
+            // left: this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A),
+            // down: this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.O),
+            // right: this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E),
+            // up: this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.COMMA),   // ",键"
             fire: this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE),   // ",键"
         }
 
