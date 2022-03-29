@@ -1,6 +1,8 @@
 # phaser3-mario
 A simple mario game,created by Phaser3
 
+在线地址 https://tyrone2333.github.io/phaser3-mario/build/
+
 ## 效果演示
 ### koopa&mushroom ###
 ![koopa&mushroom](screenshot/koopa&mushroom.png)
