@@ -2,7 +2,7 @@
   "name": "PigPigRun",
   "version": "1.1.0",
   "description": "",
-  "author": "杨志清 <a424021424@gmail.com>",
+  "author": "<a424021424@gmail.com>",
   "main": "index.js",
   "scripts": {
     "devBrowserSync": "webpack --mode=development",
